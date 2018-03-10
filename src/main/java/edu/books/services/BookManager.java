@@ -3,10 +3,10 @@ package edu.books.services;
 import edu.books.entities.Author;
 import edu.books.entities.Book;
 
-import java.util.Set;
+import java.util.List;
 
 public interface BookManager {
-    Set<Book> findAll();
+    List<Book> findAll();
     Book findById(long id);
     Book findByTitle(String title);
     Book findByAuthor(Author author);
