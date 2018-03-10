@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util.xsd">
+
+
+    <bean id="MysqlDataSource" class="org.apache.commons.dbcp2.BasicDataSource"
+          p:url="${jdbc.url}"
+          p:username="${jdbc.username}"
+          p:driverClassName="${jdbc.driverClass}"
+          p:password="${jdbc.password}"
+    />
+
+    <bean id="hibernateSessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
+        p:hibernateProperties-ref="hibernateProperties"
+        p:dataSource-ref="MysqlDataSource"
+        p:packagesToScan="edu.books"
+    />
+
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager"
+          p:sessionFactory-ref="hibernateSessionFactory"
+    />
+
+    <util:properties id="hibernateProperties">
+        <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+        <prop key="hibernate.max_fetch_depth">3</prop>
+        <prop key="hibernate.jdbc.fetch_size">50</prop>
+        <prop key="hibernate.batch_size">10</prop>
+        <prop key="hibernate.show_sql">true</prop>
+    </util:properties>
+
+    <context:property-placeholder location="classpath:META-INF/context/jdbc.properties"/>
+</beans>
