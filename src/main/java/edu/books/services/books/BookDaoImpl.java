@@ -7,6 +7,7 @@ import edu.books.utils.BookQueries;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 @Repository("bookDao")
+@Transactional
 public class BookDaoImpl implements BookDao {
 
     @Resource(name = "hibernateSessionFactory")
@@ -56,11 +58,11 @@ public class BookDaoImpl implements BookDao {
 
             for (Author a : authors)
                 books.addAll(session.getNamedQuery(BookQueries.FIND_BY_AUTHOR)
-                        .setParameter("author", a).list());
+                        .setParameter("author_id", a.getId()).list());
             return books;
         } else
             return session.getNamedQuery(BookQueries.FIND_BY_AUTHOR)
-                    .setParameter("author", author).list();
+                    .setParameter("author_id", author.getId()).list();
     }
 
     @Override

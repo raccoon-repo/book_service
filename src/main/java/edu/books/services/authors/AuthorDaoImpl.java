@@ -6,11 +6,13 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 @Repository("authorDao")
+@Transactional
 public class AuthorDaoImpl implements AuthorDao {
 
     @Resource(name = "hibernateSessionFactory")

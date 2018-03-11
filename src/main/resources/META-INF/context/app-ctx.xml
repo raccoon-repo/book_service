@@ -18,7 +18,7 @@
 
     <tx:annotation-driven/>
 
-    <bean id="MysqlDataSource" class="org.apache.commons.dbcp2.BasicDataSource"
+    <bean id="mySqlDataSource" class="org.apache.commons.dbcp2.BasicDataSource"
           p:url="${jdbc.url}"
           p:username="${jdbc.username}"
           p:driverClassName="${jdbc.driverClass}"
@@ -27,7 +27,7 @@
 
     <bean id="hibernateSessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"
         p:hibernateProperties-ref="hibernateProperties"
-        p:dataSource-ref="MysqlDataSource"
+        p:dataSource-ref="mySqlDataSource"
         p:packagesToScan="edu.books"
     />
 

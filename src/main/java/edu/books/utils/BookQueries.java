@@ -14,7 +14,7 @@ public final class BookQueries {
 
     public static final String FIND_BY_AUTHOR = "Book.findByAuthor";
     public static final String FIND_BY_AUTHOR_QUERY =
-            "SELECT DISTINCT b FROM Book b LEFT JOIN FETCH b.authors a WHERE :author = any elements(a)";
+            "SELECT DISTINCT b FROM Book b LEFT JOIN FETCH b.authors a WHERE :author_id=a.id";
 
     public static final String FIND_BY_TITLE = "Book.findByTitle";
     public static final String FIND_BY_TITLE_QUERY =

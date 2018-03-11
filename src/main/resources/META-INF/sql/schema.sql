@@ -1,8 +1,8 @@
 CREATE TABLE book (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
   title VARCHAR(255) NOT NULL,
-  genre VARCHAR(255) NOT NULL,
-  sub_genre VARCHAR(255) NOT NULL,
+  genre VARCHAR(255),
+  sub_genre VARCHAR(255),
   publish_date DATE,
   rating VARCHAR(32)
 );
