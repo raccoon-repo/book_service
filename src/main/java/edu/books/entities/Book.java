@@ -36,7 +36,7 @@ public class Book implements Serializable {
     @Column(name="rating")
     private Rating rating;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
         name = "book_author",
         joinColumns = @JoinColumn(name = "book_id"),

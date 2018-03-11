@@ -3,6 +3,7 @@ package edu.books;
 import edu.books.entities.Author;
 import edu.books.entities.Book;
 import edu.books.services.books.BookDao;
+import edu.books.services.books.BookService;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
@@ -154,29 +155,57 @@ public class BookServiceTest {
 
         }
 
-        BookDao bm = getBookDao();
+        BookService bookService = getBookService();
+        List<Book> books = bookService.findAll();
 
-        List<Book> bookList = bm.findAll();
+        assertNotNull(books);
+        assertEquals(9, books.size());
 
-        assertEquals(9, bookList.size());
 
-        List<Book> book = bm.findByTitle("First Book");
+        Author author = new Author();
+        author.setFirstName("Pavel");
+        author.setLastName("Budantsev");
+        books = bookService.findByAuthor(author);
+
+        assertNotNull(books);
+        assertEquals(4, books.size());
+
+        books = bookService.findByTitle("First Book");
+
+        assertNotNull(books);
+        assertEquals(1, books.size());
+
+        Book book = books.get(0);
+
+        assertNotNull(book.getAuthors());
+
+        List<Author> authors = book.getAuthors();
+
+        assertEquals(1, authors.size());
+
+        Author bookAuthor = book.getAuthors().get(0);
+
+        assertEquals(author.getFirstName(), bookAuthor.getFirstName());
+        assertEquals(author.getLastName(), bookAuthor.getLastName());
+
+        List<Book> authorsBooks = bookAuthor.getBooks();
+
+        for(Book b: authorsBooks) {
+            System.out.println(b);
+        }
+
+        assertEquals(4, authorsBooks.size());
+
+        System.out.println("*********************************");
+        book = authorsBooks.stream().filter(n -> n.getTitle().equals("First Book"))
+                .findFirst().get();
 
         assertNotNull(book);
 
-        assertEquals(book.get(0).getTitle(), "First Book");
-
-        Author author = new Author();
-        author.setFirstName("Timmy");
-        author.setLastName("Trumpet");
-
-        List<Book> booksOfTheAuthor = bm.findByAuthor(author);
-
-        assertNotNull(booksOfTheAuthor);
-        assertEquals(booksOfTheAuthor.get(0).getTitle(), "Seventh Book");
     }
 
     private BookDao getBookDao() {
         return ctx.getBean("bookDao", BookDao.class);
     }
+    private BookService getBookService() { return ctx.getBean("bookService", BookService.class);}
 }
