@@ -30,7 +30,7 @@ public class Author implements Serializable {
     @Column(name = "last_name")
     private String lastName;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "authors")
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "authors")
     private List<Book> books = new ArrayList<>();
 
     public Author() {
