@@ -1,7 +1,7 @@
 package edu.books;
 
 import edu.books.entities.Book;
-import edu.books.services.BookManager;
+import edu.books.services.books.BookDao;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
 
@@ -18,7 +18,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        BookManager bm = ctx.getBean("defaultBookManager", BookManager.class);
+        BookDao bm = ctx.getBean("defaultBookManager", BookDao.class);
 
         for(Book book: bm.findAll()) {
             System.out.println(book);

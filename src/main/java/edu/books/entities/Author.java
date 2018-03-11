@@ -1,5 +1,7 @@
 package edu.books.entities;
 
+import edu.books.utils.AuthorQueries;
+
 import javax.persistence.*;
 
 import static javax.persistence.GenerationType.*;
@@ -12,6 +14,10 @@ import java.util.Set;
 
 @Entity
 @Table(name = "author")
+@NamedQueries({
+    @NamedQuery(name=AuthorQueries.FIND_ALL, query = AuthorQueries.FIND_ALL_QUERY),
+    @NamedQuery(name = AuthorQueries.FIND_BY_NAME, query = AuthorQueries.FIND_BY_NAME_QUERY)
+})
 public class Author implements Serializable {
 
     @Id @Column(name = "id")
@@ -78,5 +84,15 @@ public class Author implements Serializable {
 
     public void removeBook(Book book) {
         books.remove(book);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o instanceof Author) {
+            Author a = (Author) o;
+            return id == a.id && firstName.equals(a.firstName)
+                    && lastName.equals(a.lastName);
+        }
+        return false;
     }
 }

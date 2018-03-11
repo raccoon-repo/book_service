@@ -13,7 +13,8 @@ import java.util.*;
     @NamedQuery(name = BookQueries.FIND_ALL, query = BookQueries.FIND_ALL_QUERY),
     @NamedQuery(name = BookQueries.FIND_BY_ID, query = BookQueries.FIND_BY_ID_QUERY),
     @NamedQuery(name = BookQueries.FIND_BY_AUTHOR, query = BookQueries.FIND_BY_AUTHOR_QUERY),
-    @NamedQuery(name = BookQueries.FIND_BY_TITLE, query = BookQueries.FIND_BY_TITLE_QUERY)
+    @NamedQuery(name = BookQueries.FIND_BY_TITLE, query = BookQueries.FIND_BY_TITLE_QUERY),
+    @NamedQuery(name = BookQueries.FIND_BY_GENRE, query = BookQueries.FIND_BY_GENRE_QUERY)
 })
 public class Book implements Serializable {
 
@@ -23,6 +24,9 @@ public class Book implements Serializable {
 
     @Column(name = "title")
     private String title;
+
+    @Embedded
+    private Genre genre;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "publish_date")
@@ -91,8 +95,52 @@ public class Book implements Serializable {
         this.rating = rating;
     }
 
+    public Genre getGenre() {
+        return genre;
+    }
+
+    public void setGenre(Genre genre) {
+        this.genre = genre;
+    }
+
     public enum Rating {
         WORST, BAD, OKAY, GOOD, BEST
+    }
+
+    @Embeddable
+    public static class Genre implements Serializable {
+
+        @Column(name = "genre")
+        private String genre;
+
+        @Column(name = "sub_genre")
+        private String subGenre;
+
+        public String getGenre() {
+            return genre;
+        }
+
+        public void setGenre(String genre) {
+            this.genre = genre;
+        }
+
+        public String getSubGenre() {
+            return subGenre;
+        }
+
+        public void setSubGenre(String subGenre) {
+            this.subGenre = subGenre;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if(!(o instanceof Genre))
+                return false;
+            else {
+                Genre g = (Genre) o;
+                return genre.equals(g.genre);
+            }
+        }
     }
 
     @Override

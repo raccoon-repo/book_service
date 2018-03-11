@@ -2,7 +2,7 @@ package edu.books;
 
 import edu.books.entities.Author;
 import edu.books.entities.Book;
-import edu.books.services.BookManager;
+import edu.books.services.books.BookDao;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
@@ -28,7 +28,7 @@ public class BookServiceTest {
 
     @Test
     public void shouldSaveBook() {
-        BookManager bm = getBookManager();
+        BookDao bm = getBookDao();
 
         Book book1 = new Book();
         Book book2 = new Book();
@@ -148,29 +148,35 @@ public class BookServiceTest {
 
     @Test
     public void shouldFindBooks() {
-        BookManager bm = getBookManager();
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+
+        }
+
+        BookDao bm = getBookDao();
 
         List<Book> bookList = bm.findAll();
 
         assertEquals(9, bookList.size());
 
-        Book book = bm.findByTitle("First Book");
+        List<Book> book = bm.findByTitle("First Book");
 
         assertNotNull(book);
 
-        assertEquals(book.getTitle(), "First Book");
+        assertEquals(book.get(0).getTitle(), "First Book");
 
         Author author = new Author();
-        author.setFirstName("Pavel");
-        author.setLastName("Budantsev");
+        author.setFirstName("Timmy");
+        author.setLastName("Trumpet");
 
-        Book book1 = bm.findByAuthor(author);
+        List<Book> booksOfTheAuthor = bm.findByAuthor(author);
 
-        assertNotNull(book1);
-        assertEquals(book1.getAuthors().get(0), author);
+        assertNotNull(booksOfTheAuthor);
+        assertEquals(booksOfTheAuthor.get(0).getTitle(), "Seventh Book");
     }
 
-    private BookManager getBookManager() {
-        return ctx.getBean("defaultBookManager", BookManager.class);
+    private BookDao getBookDao() {
+        return ctx.getBean("bookDao", BookDao.class);
     }
 }
