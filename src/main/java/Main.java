@@ -35,7 +35,7 @@ public class Main {
         author1.setFirstName("Pavel");
         author1.setLastName("Budantsev");
 
-        author2.setId(10);
+        author2.setId(2);
         author2.setFirstName("Matthew");
         author2.setLastName("McConaughey");
 

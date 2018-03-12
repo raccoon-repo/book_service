@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -128,16 +129,17 @@ public class BookDaoImpl implements BookDao {
 
     //checks authors' id property
     //prevents from overwriting information in rows
-    //where authors' id are the same but authors'
-    //have different properties set against properties stored in db
+    //where author's (from the passed list) id equals id in the row
+    //but author have different properties set against
+    //properties stored in db
     private void checkForAuthors(List<Author> authors) {
         Session session = sessionFactory.getCurrentSession();
         for(Author a: authors) {
             Author a1 = authorDao.findById(a.getId());
             if(a1 != null && !a.equals(a1)) {
-                long id = (Long) session.createNativeQuery(NativeQueries.SELECT_LAST_ID)
+                BigInteger id = (BigInteger) session.createNativeQuery(NativeQueries.SELECT_LAST_ID)
                           .uniqueResult();
-                a.setId(id);
+                a.setId(id.longValue());
             }
         }
     }
