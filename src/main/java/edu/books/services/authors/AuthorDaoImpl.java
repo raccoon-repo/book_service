@@ -35,10 +35,10 @@ public class AuthorDaoImpl implements AuthorDao {
     }
 
 
-    //the use case is when creating Author object without `id` property set
-    //therefore we would like to find all authors with the same name
+    //find all authors with the same name
+    //but different id
     @Override
-    public List<Author> find(Author author) {
+    public List<Author> findByName(Author author) {
         return findByName(author.getFirstName(), author.getLastName());
     }
 

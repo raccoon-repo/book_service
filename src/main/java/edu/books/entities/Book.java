@@ -2,6 +2,8 @@ package edu.books.entities;
 
 
 import edu.books.utils.BookQueries;
+import org.hibernate.annotations.Cascade;
+import static org.hibernate.annotations.CascadeType.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,7 +16,9 @@ import java.util.*;
     @NamedQuery(name = BookQueries.FIND_BY_ID, query = BookQueries.FIND_BY_ID_QUERY),
     @NamedQuery(name = BookQueries.FIND_BY_AUTHOR, query = BookQueries.FIND_BY_AUTHOR_QUERY),
     @NamedQuery(name = BookQueries.FIND_BY_TITLE, query = BookQueries.FIND_BY_TITLE_QUERY),
-    @NamedQuery(name = BookQueries.FIND_BY_GENRE, query = BookQueries.FIND_BY_GENRE_QUERY)
+    @NamedQuery(name = BookQueries.FIND_BY_GENRE, query = BookQueries.FIND_BY_GENRE_QUERY),
+    @NamedQuery(name = BookQueries.FIND_BY_DATE, query = BookQueries.FIND_BY_DATE_QUERY),
+    @NamedQuery(name= BookQueries.FIND_BY_RATING, query = BookQueries.FIND_BY_RATING_QERY)
 })
 public class Book implements Serializable {
 
@@ -36,7 +40,8 @@ public class Book implements Serializable {
     @Column(name="rating")
     private Rating rating;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @Cascade({SAVE_UPDATE, PERSIST, REFRESH, MERGE})
     @JoinTable(
         name = "book_author",
         joinColumns = @JoinColumn(name = "book_id"),
@@ -81,10 +86,12 @@ public class Book implements Serializable {
 
     public void addAuthor(Author author) {
         authors.add(author);
+        author.addBook(this);
     }
 
     public void removeAuthor(Author author) {
         authors.remove(author);
+        author.removeBook(this);
     }
 
     public Rating getRating() {
@@ -141,16 +148,25 @@ public class Book implements Serializable {
                 return genre.equals(g.genre);
             }
         }
+
+        @Override
+        public String toString() {
+            return "{" +
+                    "genre:'" + genre + '\'' +
+                    ", subGenre:'" + subGenre + '\'' +
+                    '}';
+        }
     }
 
     @Override
     public String toString() {
         return "Book{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", publishDate=" + publishDate +
-                ", rating=" + rating +
-                ", authors=" + getAuthorsString() +
+                "id:" + id +
+                ", title:'" + title + '\'' +
+                ", genre:" + genre +
+                ", publishDate:" + publishDate +
+                ", rating:" + rating +
+                ", authors:" + getAuthorsString() +
                 '}';
     }
 
@@ -165,7 +181,7 @@ public class Book implements Serializable {
         for(Author author: authors) {
             builder.append("{firstName:")
                     .append(author.getFirstName())
-                    .append(", lastName: ")
+                    .append(", lastName:")
                     .append(author.getLastName())
                     .append("}");
         }

@@ -1,16 +1,15 @@
 package edu.books.entities;
 
 import edu.books.utils.AuthorQueries;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 
-import static javax.persistence.GenerationType.*;
+import static org.hibernate.annotations.CascadeType.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "author")
@@ -20,8 +19,9 @@ import java.util.Set;
 })
 public class Author implements Serializable {
 
+    //It is mandatory to set this property
+    //to identify different authors with the same name
     @Id @Column(name = "id")
-    @GeneratedValue(strategy = IDENTITY)
     private long id;
 
     @Column(name = "first_name")
@@ -30,7 +30,8 @@ public class Author implements Serializable {
     @Column(name = "last_name")
     private String lastName;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "authors")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "authors")
+    @Cascade({SAVE_UPDATE, PERSIST, REFRESH, MERGE})
     private List<Book> books = new ArrayList<>();
 
     public Author() {
@@ -89,5 +90,15 @@ public class Author implements Serializable {
                     && lastName.equals(a.lastName);
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return "Author{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", books=" + books +
+                '}';
     }
 }

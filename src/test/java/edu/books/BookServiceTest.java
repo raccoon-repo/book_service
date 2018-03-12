@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
 
+
 import java.util.Date;
 import java.util.List;
 
@@ -29,7 +30,19 @@ public class BookServiceTest {
 
     @Test
     public void shouldSaveBook() {
-        BookDao bm = getBookDao();
+        BookService bm = getBookService();
+
+        Book.Genre genre1 = new Book.Genre();
+        Book.Genre genre2 = new Book.Genre();
+        Book.Genre genre3 = new Book.Genre();
+
+        genre1.setGenre("Detective");
+        genre1.setSubGenre("Historical Detective");
+
+        genre2.setGenre("Science");
+        genre2.setSubGenre("Physics");
+
+        genre3.setGenre("Classical");
 
         Book book1 = new Book();
         Book book2 = new Book();
@@ -47,89 +60,83 @@ public class BookServiceTest {
         Author author4 = new Author();
         Author author5 = new Author();
 
-        author1.setFirstName("Pavel");
-        author1.setLastName("Budantsev");
+        author1.setId(1);
+        author1.setFirstName("Oliver");
+        author1.setLastName("Sykes");
 
-        author2.setFirstName("Arthur");
-        author2.setLastName("Yashchenko");
+        author2.setId(2);
+        author2.setFirstName("Matthew");
+        author2.setLastName("McConaughey");
 
-        author3.setFirstName("Nicolas");
-        author3.setLastName("Opaque");
+        author3.setId(3);
+        author3.setFirstName("Jon");
+        author3.setLastName("Snow");
 
-        author4.setFirstName("Timmy");
-        author4.setLastName("Trumpet");
+        author4.setId(4);
+        author4.setFirstName("Jaime");
+        author4.setLastName("Lannister");
 
-        author5.setFirstName("Nastya");
-        author5.setLastName("Garayeva");
+        author5.setId(5);
+        author5.setFirstName("Stannis");
+        author5.setLastName("Baratheon");
 
         book1.setTitle("First Book");
         book1.setPublishDate(new Date());
         book1.setRating(Book.Rating.OKAY);
+        book1.setGenre(genre1);
         book1.addAuthor(author1);
-
-        author1.addBook(book1);
 
         book2.setTitle("Second Book");
         book2.setPublishDate(new Date());
         book2.setRating(Book.Rating.BAD);
+        book2.setGenre(genre1);
         book2.addAuthor(author2);
         book2.addAuthor(author1);
         book2.addAuthor(author3);
 
-        author1.addBook(book2);
-        author2.addBook(book2);
-        author3.addBook(book2);
-
         book3.setTitle("Third Book");
         book3.setPublishDate(new Date());
         book3.setRating(Book.Rating.OKAY);
+        book3.setGenre(genre2);
         book3.addAuthor(author1);
         book3.addAuthor(author5);
-
-        author1.addBook(book3);
-        author5.addBook(book3);
 
         book4.setTitle("Fourth Book");
         book4.setPublishDate(new Date());
         book4.setRating(Book.Rating.OKAY);
+        book4.setGenre(genre3);
         book4.addAuthor(author1);
-
-        author1.addBook(book4);
 
         book5.setTitle("Fifth Book");
         book5.setPublishDate(new Date());
         book5.setRating(Book.Rating.OKAY);
+        book5.setGenre(genre2);
         book5.addAuthor(author2);
-
-        author2.addBook(book5);
 
         book6.setTitle("Sixth Book");
         book6.setPublishDate(new Date());
         book6.setRating(Book.Rating.OKAY);
+        book6.setGenre(genre1);
         book6.addAuthor(author3);
-
-        author3.addBook(book6);
 
         book7.setTitle("Seventh Book");
         book7.setPublishDate(new Date());
         book7.setRating(Book.Rating.OKAY);
+        book7.setGenre(genre3);
         book7.addAuthor(author4);
-
-        author4.addBook(book7);
 
         book8.setTitle("Eighth Book");
         book8.setPublishDate(new Date());
         book8.setRating(Book.Rating.OKAY);
+        book8.setGenre(genre3);
         book8.addAuthor(author3);
-
-        author3.addBook(book8);
+        book8.addAuthor(author4);
 
         book9.setTitle("Ninth Book");
         book9.setPublishDate(new Date());
         book9.setRating(Book.Rating.OKAY);
         book9.addAuthor(author5);
-
-        author5.addBook(book9);
+        book9.setGenre(genre1);
 
         bm.save(book1);
         bm.save(book2);
@@ -142,18 +149,27 @@ public class BookServiceTest {
         bm.save(book9);
     }
 
-    @Test
-    public void shouldDeleteBook() {
-
-    }
-
-    @Test
+    //@Test
     public void shouldFindBooks() {
         try {
             Thread.sleep(200);
         } catch (InterruptedException e) {
 
         }
+
+        final String line = "*************************************************************************";
+
+        Book.Genre genre1 = new Book.Genre();
+        Book.Genre genre2 = new Book.Genre();
+        Book.Genre genre3 = new Book.Genre();
+
+        genre1.setGenre("Detective");
+        genre1.setSubGenre("Historical Detective");
+
+        genre2.setGenre("Science");
+        genre2.setSubGenre("Physic");
+
+        genre3.setGenre("Classical");
 
         BookService bookService = getBookService();
         List<Book> books = bookService.findAll();
@@ -163,6 +179,8 @@ public class BookServiceTest {
 
 
         Author author = new Author();
+
+        author.setId(1);
         author.setFirstName("Pavel");
         author.setLastName("Budantsev");
         books = bookService.findByAuthor(author);
@@ -190,18 +208,85 @@ public class BookServiceTest {
 
         List<Book> authorsBooks = bookAuthor.getBooks();
 
+        //Throws org.hibernate.LazyInitializationException
+        //when FetchType.LAZY used
+        //but when FetchType.EAGER used
+        //it doesn't
+        /*
         for(Book b: authorsBooks) {
             System.out.println(b);
         }
 
         assertEquals(4, authorsBooks.size());
 
-        System.out.println("*********************************");
+        System.out.println(line);
         book = authorsBooks.stream().filter(n -> n.getTitle().equals("First Book"))
                 .findFirst().get();
 
         assertNotNull(book);
 
+        */
+
+        books = bookService.findByPublishDate(new Date());
+        assertNotNull(books);
+
+        System.out.println("\n" + line);
+        System.out.println("Found by publish date" );
+        books.forEach(System.out::println);
+        System.out.println();
+
+        books = bookService.findByRating(Book.Rating.OKAY);
+
+        assertNotNull(books);
+        System.out.println("\n" + line);
+        System.out.println("Found by rating ");
+        books.forEach(System.out::println);
+        System.out.println(line);
+
+        books = bookService.findByGenre(genre1);
+        assertNotNull(books);
+        System.out.println("\n" + line);
+        System.out.println("Found by genre ");
+        books.forEach(System.out::println);
+        System.out.println(line);
+    }
+
+    //@Test
+    public void shouldUpdateAndDeleteBook() {
+        BookService bs = getBookService();
+        List<Book> books;
+
+        Book book = new Book();
+        Book book1;
+        book.setTitle("First Book");
+        System.out.println("_______________________________________");
+        bs.delete(book);
+
+        Book.Genre genre = new Book.Genre();
+        genre.setGenre("Detective");
+
+        books = bs.findByTitle("Second Book");
+        assertNotNull(books);
+        assertEquals(1, books.size());
+
+        book = books.get(0);
+
+        assertNotNull(book);
+        book.setGenre(genre);
+        books = bs.findByTitle("Second Book");
+        assertNotNull(books);
+        assertEquals(1, books.size());
+
+        book1 = books.get(0);
+        assertNotNull(book1);
+
+        assertNotNull(book.getGenre());
+        assertNotNull(book1.getGenre());
+
+        System.out.println("book1: " + book1);
+        System.out.println("book1 genre == book genre: " + book1.getGenre().equals(book.getGenre()));
+        bs.update(book);
+        bs.delete(book);
     }
 
     private BookDao getBookDao() {

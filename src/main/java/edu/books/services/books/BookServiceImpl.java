@@ -43,7 +43,18 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void delete(Book book) {
+        bookDao.delete(book);
+    }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<Book> findByRating(Book.Rating rating) {
+        return bookDao.findByRating(rating);
+    }
+
+    @Override
+    public List<Book> findByGenre(Book.Genre genre) {
+        return bookDao.findByGenre(genre);
     }
 
     @Override
@@ -53,7 +64,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book update(Book book) {
-        return null;
+        return bookDao.update(book);
     }
 
     public BookDao getBookDao() {
