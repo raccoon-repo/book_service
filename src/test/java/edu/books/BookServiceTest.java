@@ -2,6 +2,7 @@ package edu.books;
 
 import edu.books.entities.Author;
 import edu.books.entities.Book;
+import edu.books.services.authors.AuthorDao;
 import edu.books.services.books.BookDao;
 import edu.books.services.books.BookService;
 import org.junit.BeforeClass;
@@ -59,26 +60,25 @@ public class BookServiceTest {
         Author author3 = new Author();
         Author author4 = new Author();
         Author author5 = new Author();
+        Author author6 = new Author();
 
-        author1.setId(1);
         author1.setFirstName("Oliver");
         author1.setLastName("Sykes");
 
-        author2.setId(2);
         author2.setFirstName("Matthew");
         author2.setLastName("McConaughey");
 
-        author3.setId(3);
         author3.setFirstName("Jon");
         author3.setLastName("Snow");
 
-        author4.setId(4);
         author4.setFirstName("Jaime");
         author4.setLastName("Lannister");
 
-        author5.setId(5);
         author5.setFirstName("Stannis");
         author5.setLastName("Baratheon");
+
+        author6.setFirstName("James");
+        author6.setLastName("Hetfield");
 
         book1.setTitle("First Book");
         book1.setPublishDate(new Date());
@@ -139,6 +139,9 @@ public class BookServiceTest {
         book9.setGenre(genre1);
 
         bm.save(book1);
+        book1.addAuthor(author6);
+        bm.save(book1);
+
         bm.save(book2);
         bm.save(book3);
         bm.save(book4);
@@ -149,13 +152,8 @@ public class BookServiceTest {
         bm.save(book9);
     }
 
-    //@Test
+    @Test(timeout = 500L)
     public void shouldFindBooks() {
-        try {
-            Thread.sleep(200);
-        } catch (InterruptedException e) {
-
-        }
 
         final String line = "*************************************************************************";
 
@@ -177,14 +175,14 @@ public class BookServiceTest {
         assertNotNull(books);
         assertEquals(9, books.size());
 
+        AuthorDao authorDao = getAuthorDao();
 
-        Author author = new Author();
+        Author author = authorDao.findByName("Oliver", "Sykes").get(0);
 
-        author.setId(1);
-        author.setFirstName("Pavel");
-        author.setLastName("Budantsev");
+        assertNotNull(authorDao);
+        assertEquals("Oliver", author.getFirstName());
+
         books = bookService.findByAuthor(author);
-
         assertNotNull(books);
         assertEquals(4, books.size());
 
@@ -199,7 +197,7 @@ public class BookServiceTest {
 
         List<Author> authors = book.getAuthors();
 
-        assertEquals(1, authors.size());
+        assertEquals(2, authors.size());
 
         Author bookAuthor = book.getAuthors().get(0);
 
@@ -251,46 +249,52 @@ public class BookServiceTest {
         System.out.println(line);
     }
 
-    //@Test
-    public void shouldUpdateAndDeleteBook() {
+    @Test(timeout = 1000L)
+    public void shouldUpdateAndDeleteBooks() {
         BookService bs = getBookService();
         List<Book> books;
-
-        Book book = new Book();
+        Book book;
         Book book1;
-        book.setTitle("First Book");
-        System.out.println("_______________________________________");
-        bs.delete(book);
 
-        Book.Genre genre = new Book.Genre();
-        genre.setGenre("Detective");
+        Book.Genre detective = new Book.Genre();
+        detective.setGenre("Detective");
 
-        books = bs.findByTitle("Second Book");
+        books = bs.findByTitle("First Book");
+
         assertNotNull(books);
         assertEquals(1, books.size());
 
         book = books.get(0);
 
         assertNotNull(book);
-        book.setGenre(genre);
-        books = bs.findByTitle("Second Book");
+        assertEquals("First Book", book.getTitle());
+
+        book.setGenre(detective);
+        //bs.update(book);
+
+        books = bs.findByTitle("First Book");
+
         assertNotNull(books);
         assertEquals(1, books.size());
 
-        book1 = books.get(0);
-        assertNotNull(book1);
+        book = books.get(0);
 
-        assertNotNull(book.getGenre());
-        assertNotNull(book1.getGenre());
-
-        System.out.println("book1: " + book1);
-        System.out.println("book1 genre == book genre: " + book1.getGenre().equals(book.getGenre()));
-        bs.update(book);
+        assertNotNull(book);
+        assertEquals("First Book", book.getTitle());
+        assertEquals("Detective", book.getGenre().getGenre());
         bs.delete(book);
+
+        books = bs.findByTitle("First Book");
+
+        assertNotNull(books);
+        assertEquals(0, books.size());
     }
 
     private BookDao getBookDao() {
         return ctx.getBean("bookDao", BookDao.class);
+    }
+    private AuthorDao getAuthorDao() {
+        return ctx.getBean("authorDao", AuthorDao.class);
     }
     private BookService getBookService() { return ctx.getBean("bookService", BookService.class);}
 }

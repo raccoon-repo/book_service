@@ -35,13 +35,6 @@ public class AuthorDaoImpl implements AuthorDao {
     }
 
 
-    //find all authors with the same name
-    //but different id
-    @Override
-    public List<Author> findByName(Author author) {
-        return findByName(author.getFirstName(), author.getLastName());
-    }
-
     @Override
     @SuppressWarnings("unchecked")
     public List<Author> findByName(String firstName, String lastName) {
