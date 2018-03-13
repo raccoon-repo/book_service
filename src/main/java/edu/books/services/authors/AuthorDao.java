@@ -8,6 +8,5 @@ public interface AuthorDao {
     Author findById(long id);
 
     List<Author> findAll();
-    List<Author> findByName(Author author);
     List<Author> findByName(String firstName, String lastName);
 }

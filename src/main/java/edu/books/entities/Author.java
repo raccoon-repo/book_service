@@ -19,9 +19,8 @@ import java.util.List;
 })
 public class Author implements Serializable {
 
-    //It is mandatory to set this property
-    //to identify different authors with the same name
     @Id @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "first_name")
