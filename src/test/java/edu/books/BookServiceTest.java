@@ -23,7 +23,8 @@ public class BookServiceTest {
     public static void init() {
         GenericXmlApplicationContext xmlContext =
                 new GenericXmlApplicationContext();
-        xmlContext.load("classpath:META-INF/context/app-ctx.xml");
+        xmlContext.load("classpath:META-INF/context/test-ctx.xml");
+        xmlContext.getEnvironment().setActiveProfiles("test");
         xmlContext.refresh();
 
         ctx = xmlContext;

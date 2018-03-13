@@ -18,24 +18,17 @@
        http://www.springframework.org/schema/jdbc
        http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
 
-
     <tx:annotation-driven/>
 
     <jdbc:embedded-database id="embeddedDataSource" type="H2">
         <jdbc:script location="classpath:META-INF/sql/schema.sql"/>
     </jdbc:embedded-database>
 
-    <bean id="mySqlDataSource" class="org.apache.commons.dbcp2.BasicDataSource"
-          p:url="${jdbc.url}"
-          p:username="${jdbc.username}"
-          p:driverClassName="${jdbc.driverClass}"
-          p:password="${jdbc.password}"
-    />
 
     <bean id="hibernateSessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"
-        p:hibernateProperties-ref="hibernateProperties"
-        p:dataSource-ref="mySqlDataSource"
-        p:packagesToScan="edu.books"
+          p:hibernateProperties-ref="hibernateProperties"
+          p:dataSource-ref="embeddedDataSource"
+          p:packagesToScan="edu.books"
     />
 
     <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager"
@@ -43,14 +36,12 @@
     />
 
     <util:properties id="hibernateProperties">
-        <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+        <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
         <prop key="hibernate.max_fetch_depth">3</prop>
         <prop key="hibernate.jdbc.fetch_size">50</prop>
         <prop key="hibernate.batch_size">10</prop>
         <prop key="hibernate.show_sql">true</prop>
     </util:properties>
-
-    <context:property-placeholder location="classpath:META-INF/context/jdbc.properties"/>
 
     <context:component-scan base-package="edu.books"/>
 </beans>

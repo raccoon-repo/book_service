@@ -2,8 +2,6 @@ package edu.books.services.books;
 
 import edu.books.entities.Author;
 import edu.books.entities.Book;
-import edu.books.services.authors.AuthorDao;
-import edu.books.services.books.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

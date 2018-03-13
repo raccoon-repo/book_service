@@ -8,7 +8,7 @@ CREATE TABLE book (
 );
 
 CREATE TABLE author(
-  id BIGINT PRIMARY KEY,
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
   first_name VARCHAR(255),
   last_name VARCHAR(255)
 );
