@@ -32,4 +32,7 @@ public final class BookQueries {
     public static final String FIND_BY_DATE = "Book.findByDate";
     public static final String FIND_BY_DATE_QUERY =
             "SELECT DISTINCT b FROM Book b LEFT JOIN FETCH b.authors a WHERE b.publishDate=:date";
+
+    public static final String FIND_ID_BY_TAG_QUERY =
+            "SELECT DISTINCT book_id FROM tags AS t WHERE t.tag=:tag";
 }

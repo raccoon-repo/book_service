@@ -4,13 +4,14 @@ import edu.books.entities.Author;
 import edu.books.entities.Book;
 import edu.books.services.authors.AuthorDao;
 import edu.books.utils.BookQueries;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.List;
+import java.math.BigInteger;
+import java.util.*;
 
 @Repository("bookDao")
 @Transactional
@@ -63,6 +64,32 @@ public class BookDaoImpl implements BookDao {
                .getNamedQuery(BookQueries.FIND_BY_DATE)
                .setParameter("date", publishDate)
                .list();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<Book> findByTags(Set<String> tags) {
+        Session session = sessionFactory.getCurrentSession();
+
+        Set<BigInteger> ids = new HashSet<>();
+
+        for(String tag: tags) {
+            tag = tag.toLowerCase().trim();
+            ids.addAll(
+                session
+                .createNativeQuery(BookQueries.FIND_ID_BY_TAG_QUERY)
+                .setParameter("tag", tag)
+                .getResultList()
+            );
+        }
+
+        List<Book> books = new ArrayList<>();
+
+        for(BigInteger id: ids) {
+            books.add(findById(id.longValue()));
+        }
+
+        return books;
     }
 
     @Override

@@ -5,6 +5,7 @@ import edu.books.entities.Book;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 public interface BookService {
     List<Book> findAll();
@@ -13,6 +14,7 @@ public interface BookService {
     List<Book> findByPublishDate(Date date);
     List<Book> findByRating(Book.Rating rating);
     List<Book> findByGenre(Book.Genre genre);
+    List<Book> findByTags(Set<String> tags);
 
     void delete(Book book);
     Book save(Book book);

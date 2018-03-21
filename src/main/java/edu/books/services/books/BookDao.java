@@ -5,6 +5,7 @@ import edu.books.entities.Book;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 public interface BookDao {
     List<Book> findAll();
@@ -15,6 +16,7 @@ public interface BookDao {
     List<Book> findByGenre(Book.Genre genre);
     List<Book> findByRating(Book.Rating rating);
     List<Book> findByPublishDate(Date publishDate);
+    List<Book> findByTags(Set<String> tags);
 
     Book save(Book book);
     Book update(Book book);

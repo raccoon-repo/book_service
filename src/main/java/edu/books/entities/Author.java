@@ -2,6 +2,7 @@ package edu.books.entities;
 
 import edu.books.utils.AuthorQueries;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 
@@ -19,19 +20,22 @@ import java.util.List;
 })
 public class Author implements Serializable {
 
-    @Id @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    /* ********** properties ********** */
+
     private long id;
 
-    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "last_name")
     private String lastName;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "authors")
-    @Cascade({SAVE_UPDATE, PERSIST, REFRESH, MERGE})
     private List<Book> books = new ArrayList<>();
+
+    private byte[] photo;
+
+    private long version;
+
+    /* ********** ********** ********** */
+
 
     public Author() {
     }
@@ -41,6 +45,10 @@ public class Author implements Serializable {
         this.lastName = lastName;
     }
 
+    /* ***** getters and setters ****** */
+
+    @Id @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long getId() {
         return id;
     }
@@ -49,6 +57,7 @@ public class Author implements Serializable {
         this.id = id;
     }
 
+    @Column(name = "first_name")
     public String getFirstName() {
         return firstName;
     }
@@ -57,6 +66,7 @@ public class Author implements Serializable {
         this.firstName = firstName;
     }
 
+    @Column(name = "last_name")
     public String getLastName() {
         return lastName;
     }
@@ -65,6 +75,8 @@ public class Author implements Serializable {
         this.lastName = lastName;
     }
 
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "authors")
+    @Cascade({SAVE_UPDATE, PERSIST, REFRESH, MERGE})
     public List<Book> getBooks() {
         return books;
     }
@@ -72,6 +84,29 @@ public class Author implements Serializable {
     public void setBooks(List<Book> books) {
         this.books = books;
     }
+
+    @Version
+    public long getVersion() {
+        return version;
+    }
+
+    public void setVersion(long version) {
+        this.version = version;
+    }
+
+    @Basic(fetch = FetchType.LAZY)
+    @Lob
+    @Column(name = "photo")
+    public byte[] getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
+    }
+
+
+    /* ********** ********** ********** */
 
     public void addBook(Book book) {
         books.add(book);
@@ -85,8 +120,7 @@ public class Author implements Serializable {
     public boolean equals(Object o) {
         if(o instanceof Author) {
             Author a = (Author) o;
-            return id == a.id && firstName.equals(a.firstName)
-                    && lastName.equals(a.lastName);
+            return id == a.id;
         }
         return false;
     }

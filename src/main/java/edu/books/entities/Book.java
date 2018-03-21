@@ -22,37 +22,36 @@ import java.util.*;
 })
 public class Book implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    /* ********** properties ********** */
+
     private long id;
 
-    @Column(name = "title")
     private String title;
 
-    @Embedded
     private Genre genre;
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "publish_date")
     private Date publishDate;
 
+    private byte[] cover;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name="rating")
     private Rating rating;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @Cascade({SAVE_UPDATE, PERSIST, REFRESH, MERGE})
-    @JoinTable(
-        name = "book_author",
-        joinColumns = @JoinColumn(name = "book_id"),
-        inverseJoinColumns = @JoinColumn(name = "author_id")
-    )
     private List<Author> authors = new ArrayList<>();
+
+    private Set<String> tags = new HashSet<>();
+
+    private long version;
 
     public Book() {
     }
 
+    /* ********** ********** ********** */
+
+
+    /* ***** getters and setters ****** */
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long getId() {
         return id;
     }
@@ -61,6 +60,7 @@ public class Book implements Serializable {
         this.id = id;
     }
 
+    @Column(name = "title")
     public String getTitle() {
         return title;
     }
@@ -69,6 +69,8 @@ public class Book implements Serializable {
         this.title = title;
     }
 
+    @Temporal(TemporalType.DATE)
+    @Column(name = "publish_date")
     public Date getPublishDate() {
         return publishDate;
     }
@@ -77,6 +79,13 @@ public class Book implements Serializable {
         this.publishDate = publishDate;
     }
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @Cascade({SAVE_UPDATE, PERSIST, REFRESH, MERGE})
+    @JoinTable(
+            name = "book_author",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id")
+    )
     public List<Author> getAuthors() {
         return authors;
     }
@@ -84,6 +93,58 @@ public class Book implements Serializable {
     public void setAuthors(List<Author> authors) {
         this.authors = authors;
     }
+
+
+    @Version
+    public long getVersion() {
+        return version;
+    }
+
+    public void setVersion(long version) {
+        this.version = version;
+    }
+
+    @Basic(fetch = FetchType.LAZY)
+    @Lob @Column(name = "cover")
+    public byte[] getCover() {
+        return cover;
+    }
+
+    public void setCover(byte[] cover) {
+        this.cover = cover;
+    }
+
+    @ElementCollection @Column(name = "tag")
+    @CollectionTable(name = "tags", joinColumns = @JoinColumn(name = "book_id"))
+    public Set<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<String> tags) {
+        this.tags = tags;
+    }
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="rating")
+    public Rating getRating() {
+        return rating;
+    }
+
+    public void setRating(Rating rating) {
+        this.rating = rating;
+    }
+
+    @Embedded
+    public Genre getGenre() {
+        return genre;
+    }
+
+    public void setGenre(Genre genre) {
+        this.genre = genre;
+    }
+
+    /* ********** ********** ********** */
+
 
     public void addAuthor(Author author) {
         authors.add(author);
@@ -95,35 +156,64 @@ public class Book implements Serializable {
         author.removeBook(this);
     }
 
-    public Rating getRating() {
-        return rating;
+    public void addTag(String tag) {
+        tags.add(tag.toLowerCase());
     }
 
-    public void setRating(Rating rating) {
-        this.rating = rating;
-    }
-
-    public Genre getGenre() {
-        return genre;
-    }
-
-    public void setGenre(Genre genre) {
-        this.genre = genre;
+    public void removeTag(String tag) {
+        tags.remove(tag.toLowerCase());
     }
 
     public enum Rating {
         WORST, BAD, OKAY, GOOD, BEST
     }
 
+    @Override
+    public int hashCode() {
+        return (int)(id ^ (id >>> 32));
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id:" + id +
+                ", title:'" + title + '\'' +
+                ", genre:" + genre +
+                ", publishDate:" + publishDate +
+                ", rating:" + rating +
+                ", authors:" + getAuthorsString() +
+                '}';
+    }
+
+    @Transient
+    private String getAuthorsString() {
+        StringBuilder builder = new StringBuilder();
+
+        if(authors.size() == 0)
+            return null;
+
+        builder.append("[");
+
+        for(Author author: authors) {
+            builder.append("{firstName:")
+                    .append(author.getFirstName())
+                    .append(", lastName:")
+                    .append(author.getLastName())
+                    .append("}");
+        }
+
+        builder.append("]");
+        return builder.toString();
+    }
+
     @Embeddable
     public static class Genre implements Serializable {
 
-        @Column(name = "genre")
         private String genre;
 
-        @Column(name = "sub_genre")
         private String subGenre;
 
+        @Column(name = "genre")
         public String getGenre() {
             return genre;
         }
@@ -132,6 +222,7 @@ public class Book implements Serializable {
             this.genre = genre;
         }
 
+        @Column(name = "sub_genre")
         public String getSubGenre() {
             return subGenre;
         }
@@ -157,37 +248,5 @@ public class Book implements Serializable {
                     ", subGenre:'" + subGenre + '\'' +
                     '}';
         }
-    }
-
-    @Override
-    public String toString() {
-        return "Book{" +
-                "id:" + id +
-                ", title:'" + title + '\'' +
-                ", genre:" + genre +
-                ", publishDate:" + publishDate +
-                ", rating:" + rating +
-                ", authors:" + getAuthorsString() +
-                '}';
-    }
-
-    private String getAuthorsString() {
-        StringBuilder builder = new StringBuilder();
-
-        if(authors.size() == 0)
-            return null;
-
-        builder.append("[");
-
-        for(Author author: authors) {
-            builder.append("{firstName:")
-                    .append(author.getFirstName())
-                    .append(", lastName:")
-                    .append(author.getLastName())
-                    .append("}");
-        }
-
-        builder.append("]");
-        return builder.toString();
     }
 }

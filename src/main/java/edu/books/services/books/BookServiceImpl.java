@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Service("bookService")
 @Transactional
@@ -49,6 +50,12 @@ public class BookServiceImpl implements BookService {
     @Transactional(readOnly = true)
     public List<Book> findByGenre(Book.Genre genre) {
         return bookDao.findByGenre(genre);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Book> findByTags(Set<String> tags) {
+        return bookDao.findByTags(tags);
     }
 
     @Override

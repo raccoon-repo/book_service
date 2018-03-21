@@ -13,6 +13,9 @@ import org.springframework.context.support.GenericXmlApplicationContext;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.junit.Assert.*;
 
@@ -31,8 +34,18 @@ public class BookServiceTest {
     }
 
     @Test
-    public void shouldSaveBook() {
+    public void serviceTest() {
+        shouldSaveBook();
+        shouldFindBooks();
+        shouldUpdateAndDeleteBooks();
+    }
+
+    private void shouldSaveBook() {
         BookService bm = getBookService();
+
+        String tag_science = "Science";
+        String tag_detective = "detective";
+        String tag_detective_upper = "DETECTIVE";
 
         Book.Genre genre1 = new Book.Genre();
         Book.Genre genre2 = new Book.Genre();
@@ -86,6 +99,7 @@ public class BookServiceTest {
         book1.setRating(Book.Rating.OKAY);
         book1.setGenre(genre1);
         book1.addAuthor(author1);
+        book1.addTag(tag_detective);
 
         book2.setTitle("Second Book");
         book2.setPublishDate(new Date());
@@ -94,6 +108,7 @@ public class BookServiceTest {
         book2.addAuthor(author2);
         book2.addAuthor(author1);
         book2.addAuthor(author3);
+        book2.addTag(tag_detective_upper);
 
         book3.setTitle("Third Book");
         book3.setPublishDate(new Date());
@@ -101,6 +116,7 @@ public class BookServiceTest {
         book3.setGenre(genre2);
         book3.addAuthor(author1);
         book3.addAuthor(author5);
+        book3.addTag(tag_science);
 
         book4.setTitle("Fourth Book");
         book4.setPublishDate(new Date());
@@ -153,10 +169,14 @@ public class BookServiceTest {
         bm.save(book9);
     }
 
-    @Test(timeout = 500L)
-    public void shouldFindBooks() {
+    private void shouldFindBooks() {
 
         final String line = "*************************************************************************";
+
+
+        String tag_science = "Science";
+        String tag_detective = "detective";
+        String tag_detective_upper = "DETECTIVE";
 
         Book.Genre genre1 = new Book.Genre();
         Book.Genre genre2 = new Book.Genre();
@@ -248,10 +268,15 @@ public class BookServiceTest {
         System.out.println("Found by genre ");
         books.forEach(System.out::println);
         System.out.println(line);
+
+        List<Book> tag_books = bookService.findByTags(
+            Stream.of(tag_detective).collect(Collectors.toSet())
+        );
+
+        assertEquals(2, tag_books.size());
     }
 
-    @Test(timeout = 1000L)
-    public void shouldUpdateAndDeleteBooks() {
+    private void shouldUpdateAndDeleteBooks() {
         BookService bs = getBookService();
         List<Book> books;
         Book book;
