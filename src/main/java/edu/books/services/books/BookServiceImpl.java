@@ -40,21 +40,21 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void delete(Book book) {
-        bookDao.delete(book);
-    }
-
-    @Override
     @Transactional(readOnly = true)
     public List<Book> findByRating(Book.Rating rating) {
         return bookDao.findByRating(rating);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Book> findByGenre(Book.Genre genre) {
         return bookDao.findByGenre(genre);
     }
 
+    @Override
+    public void delete(Book book) {
+        bookDao.delete(book);
+    }
     @Override
     public Book save(Book book) {
         return bookDao.save(book);

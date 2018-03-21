@@ -36,6 +36,7 @@ public class Book implements Serializable {
     @Column(name = "publish_date")
     private Date publishDate;
 
+
     @Enumerated(EnumType.STRING)
     @Column(name="rating")
     private Rating rating;
