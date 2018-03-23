@@ -22,9 +22,12 @@
     <beans:bean class="org.springframework.web.servlet.view.tiles3.TilesConfigurer" id="tilesConfigurer">
         <beans:property name="definitions">
             <beans:list>
-                <beans:value>/WEB-INF/</beans:value>
-                <beans:value>/WEB-INF/</beans:value>
+                <beans:value>/WEB-INF/tiles/default/layouts.xml</beans:value>
+                <beans:value>/WEB-INF/views/views.xml</beans:value>
             </beans:list>
         </beans:property>
     </beans:bean>
+
+    <context:component-scan base-package="edu.books.app"/>
+
 </beans:beans>

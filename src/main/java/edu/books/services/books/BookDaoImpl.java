@@ -51,8 +51,8 @@ public class BookDaoImpl implements BookDao {
     public List<Book> findByAuthor(Author author) {
         if(author.getId() <= 0)
             return null;
-        return (List<Book>)sessionFactory.getCurrentSession().
-               getNamedQuery(BookQueries.FIND_BY_AUTHOR)
+        return (List<Book>)sessionFactory.getCurrentSession()
+               .getNamedQuery(BookQueries.FIND_BY_AUTHOR)
                .setParameter("author_id", author.getId())
                .list();
     }

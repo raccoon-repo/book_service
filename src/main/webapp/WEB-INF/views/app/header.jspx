@@ -1,0 +1,32 @@
+<div id="header"
+     xmlns:jsp="http://java.sun.com/JSP/Page"
+     xmlns:spring="http://www.springframework.org/tags"
+     version="2.0"
+
+>
+    <jsp:directive.page contentType="text/html; charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="true"/>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#book-navbar">
+                    <span class="icon-bar"><jsp:text/></span>
+                    <span class="icon-bar"><jsp:text/></span>
+                    <span class="icon-bar"><jsp:text/></span>
+                </button>
+                <a class="navbar-brand" href="/book-service">Book Service</a>
+            </div>
+            <div class="collapse navbar-collapse" id="book-navbar">
+                <ul class="nav navbar-nav">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">All Books</a></li>
+                    <li><a href="#">Find Books</a></li>
+                    <li><a href="#">All Authors</a></li>
+                    <li><a href="#">Find Authors</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+</div>
