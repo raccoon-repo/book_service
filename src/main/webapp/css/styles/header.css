@@ -1,0 +1,27 @@
+.navbar {
+    background-color: #308e56;
+    color: #FFF;
+    font-size: 1.2em;
+    border: 0px;
+}
+
+.navbar-inverse .navbar-nav a,
+.navbar-inverse .navbar-nav a:focus,
+.navbar-inverse .navbar-nav a:hover {
+    color: #FFF;
+}
+
+.navbar-inverse .navbar-nav li a {
+    color: #D5D5D5;
+}
+
+.navbar-inverse .navbar-brand {
+    color: #D5D5D5;
+}
+
+.navbar-inverse .navbar-toggle,
+.navbar-inverse .navbar-toggle:hover,
+.navbar-inverse .navbar-toggle:focus {
+    background-color: #308e56;
+    border-color: #FFF;
+}

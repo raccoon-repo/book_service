@@ -17,35 +17,26 @@
     <spring:url value="/resources/css/bootstrap-3.3.7-dist/css/bootstrap.min.css"
                 var="bootstrapCss"/>
     <spring:url value="/resources/css/styles/menu.css" var="menuCss"/>
-    <spring:url value="/resources/css/styles/default.css" var="defaultCss"/>
+    <spring:url value="/resources/css/styles/header.css" var="headerCss"/>
 
     <spring:url value="/resources/js/jquery-color.js" var="jQueryColor"/>
     <spring:url value="/resources/js/jquery-3.3.1.min.js" var="jQuery"/>
-    <spring:url value="/resources/css/bootstrap-3.3.7-dist/js/bootstrap.js" var="bootstrapJs"/>
+    <spring:url value="/resources/css/bootstrap-3.3.7-dist/js/bootstrap.min.js" var="bootstrapJs"/>
 
     <link rel="stylesheet" href="${bootstrapCss}"/>
     <link rel="stylesheet" href="${menuCss}"/>
-    <link rel="stylesheet" href="${defaultCss}"/>
+    <link rel="stylesheet" href="${headerCss}"/>
 
     <script src="${jQuery}"><jsp:text/></script>
-    <script src="${jQueryColor}"><jsp:text/></script>
     <script src="${bootstrapJs}"><jsp:text/></script>
 
     <title>Welcome</title>
 </head>
 
 <body>
-    <div id="header-wrapper">
-        <tiles:insertAttribute name="header" ignore="true"/>
-    </div>
-
-    <div id="wrapper">
-        <tiles:insertAttribute name="body" ignore="true"/>
-    </div>
-
-    <div id="footer-wrapper">
-        <tiles:insertAttribute name="footer" ignore="true"/>
-    </div>
+    <tiles:insertAttribute name="header" ignore="true"/>
+    <tiles:insertAttribute name="body" ignore="true"/>
+    <tiles:insertAttribute name="footer" ignore="true"/>
 </body>
 
 </html>

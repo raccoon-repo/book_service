@@ -6,35 +6,32 @@
     <jsp:directive.page contentType="text/html; charset=UTF-8"/>
     <jsp:output omit-xml-declaration="true"/>
 
-    <script>
-        $('.sqr-panel').mouseenter(function () {
-            $(this).animate({
-                width: "250px",
-                height: "250px"
-            });
-
-            console.log(1);
-        });
-    </script>
-
-    <div class="container">
+    <div class="container menu">
         <div class="row">
-            <div class="col-sm-6">
-                <a href="" class="sqr-panel"><span class="sqr-panel-text">All Books</span></a>
+            <div class="col-xs-6 col-sm-3">
+                <div class="menu-item center">
+                    <span class="glyphicon glyphicon-book"><jsp:text/></span>
+                    <a href="books?find" class="service-ref"> Find Book</a>
+                </div>
             </div>
-            <div class="col-sm-6">
-                <a href="" class="sqr-panel"><span class="sqr-panel-text">Find Books</span></a>
+            <div class="col-xs-6 col-sm-3">
+                <div class="menu-item center">
+                    <span class="glyphicon glyphicon-align-justify"><jsp:text/></span>
+                    <a href="books" class="service-ref"> All Books</a>
+                </div>
+            </div>
+            <div class="col-xs-6 col-sm-3">
+                <div class="menu-item center">
+                    <span class="glyphicon glyphicon-user"><jsp:text/></span>
+                    <a href="authors?find" class="service-ref"> Find Author</a>
+                </div>
+            </div>
+            <div class="col-xs-6 col-sm-3">
+                <div class="menu-item center">
+                    <span class="glyphicon glyphicon-align-justify"><jsp:text/></span>
+                    <a href="authors" class="service-ref"> All Authors</a>
+                </div>
             </div>
         </div>
-
-        <div class="row">
-            <div class="col-sm-6">
-                <a href="" class="sqr-panel"><span class="sqr-panel-text">All Authors</span></a>
-            </div>
-            <div class="col-sm-6">
-                <a href="" class="sqr-panel"><span class="sqr-panel-text">Find Authors</span></a>
-            </div>
-        </div>
-
     </div>
 </div>
