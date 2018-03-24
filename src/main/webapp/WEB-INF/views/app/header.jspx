@@ -19,7 +19,7 @@
                 </button>
                 <a class="navbar-brand" href="#">Book Service</a>
             </div>
-            <div class="collapse navbar-collapse" id="drop-downmenu">
+            <div class="collapse navbar-collapse" id="dropdown-menu">
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#">Home</a></li>
                     <li><a href="#">Books</a></li>
