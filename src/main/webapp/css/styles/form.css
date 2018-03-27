@@ -1,0 +1,133 @@
+.form-control {
+    max-width: 200px;
+}
+
+.form-group {
+    max-width: 200px;
+    width: 200px;
+}
+
+.form-body {
+    width: 76%;
+    max-width: 768px;
+    margin: 0 auto;
+}
+
+.form {
+    min-width: 200px;
+}
+
+.row {
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+
+.author {
+    border-bottom: 1px solid #e9e9e9;
+    margin-bottom: 5px;
+}
+
+a.toggle-bar {
+    width: 100%;
+    min-width: 200px;
+    display: block;
+    background: rgb(230, 230, 230);
+    border: 1px solid rgb(220, 220, 220);
+    cursor: pointer;
+    font-size: 20px;
+    margin: 0 auto;
+    text-decoration: none;
+    color: rgb(60, 60, 60);
+    padding-bottom: 2px;
+    padding-left: 5px;
+    padding-right: 2px;
+    padding-top: 3px;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.medium {
+    max-width: 768px;
+}
+
+.form-groups {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.no-padding {
+    padding: 0;
+}
+
+.mid-on-extra-small {
+    margin: 5px auto;
+}
+
+.li-tag-field {
+    cursor: pointer;
+    margin-right: 2px;
+}
+
+.dropdown-header {
+    font-size: 1.2em;
+}
+
+@media screen and (max-width: 768px) {
+    .col-xs-12 .form-group {
+        margin: 5px auto;
+    }
+
+    #tag-inputs-wrapper {
+        max-width: 275px;
+        margin: 5px auto;
+    }
+}
+
+.tag-pill {
+    cursor: pointer;
+    display: inline-block;
+    height: 25px;
+    min-width: 40px;
+    background-color: #7cc4ff;
+    color: white;
+    font-size: 16px;
+    padding-right: 3px;
+    padding-left: 3px;
+    padding-top: 3px;
+    padding-bottom: 5px;
+    border-radius: 2px;
+    border-color: #7cc1fa;
+    margin-left: 5px;
+    margin-bottom: 5px;
+}
+
+#tag-pills-wrapper {
+    display: block;
+    width: 100%;
+    min-width: 200px;
+}
+
+.icon {
+    margin-top: 1px;
+    margin-left: 1px;
+}
+
+.submit-btn {
+    max-width: 200px;
+    margin: 0 auto;
+    border-color: #308e56;
+}
+
+.control-glyphicons-wrapper {
+    float: right;
+}
+
+.add-author, .remove-author {
+    cursor: pointer;
+}

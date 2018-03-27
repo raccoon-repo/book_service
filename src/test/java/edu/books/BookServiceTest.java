@@ -156,8 +156,6 @@ public class BookServiceTest {
         book9.setGenre(genre1);
 
         bm.save(book1);
-        book1.addAuthor(author6);
-        bm.save(book1);
 
         bm.save(book2);
         bm.save(book3);
@@ -218,7 +216,7 @@ public class BookServiceTest {
 
         List<Author> authors = book.getAuthors();
 
-        assertEquals(2, authors.size());
+        assertEquals(1, authors.size());
 
         Author bookAuthor = book.getAuthors().get(0);
 

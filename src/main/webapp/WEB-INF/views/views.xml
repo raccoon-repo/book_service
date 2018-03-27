@@ -5,6 +5,10 @@
 
 <tiles-definitions>
     <definition extends="default" name="homepage">
-        <put-attribute name="body" value="/WEB-INF/views/app/menu.jspx"/>
+        <put-attribute name="content" value="/WEB-INF/views/app/menu.jspx"/>
+    </definition>
+
+    <definition extends="default" name="books?find">
+        <put-attribute name="content" value="/WEB-INF/views/books/find.jspx"/>
     </definition>
 </tiles-definitions>

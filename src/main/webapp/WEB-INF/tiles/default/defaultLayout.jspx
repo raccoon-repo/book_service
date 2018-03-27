@@ -18,6 +18,7 @@
                 var="bootstrapCss"/>
     <spring:url value="/resources/css/styles/menu.css" var="menuCss"/>
     <spring:url value="/resources/css/styles/header.css" var="headerCss"/>
+    <spring:url value="/resources/css/styles/form.css" var="findCss"/>
 
     <spring:url value="/resources/js/jquery-color.js" var="jQueryColor"/>
     <spring:url value="/resources/js/jquery-3.3.1.min.js" var="jQuery"/>
@@ -26,16 +27,18 @@
     <link rel="stylesheet" href="${bootstrapCss}"/>
     <link rel="stylesheet" href="${menuCss}"/>
     <link rel="stylesheet" href="${headerCss}"/>
+    <link rel="stylesheet" href="${findCss}"/>
 
     <script src="${jQuery}"><jsp:text/></script>
     <script src="${bootstrapJs}"><jsp:text/></script>
+    <script src="${jQueryColor}"><jsp:text/></script>
 
     <title>Welcome</title>
 </head>
 
 <body>
     <tiles:insertAttribute name="header" ignore="true"/>
-    <tiles:insertAttribute name="body" ignore="true"/>
+    <tiles:insertAttribute name="content" ignore="false"/>
     <tiles:insertAttribute name="footer" ignore="true"/>
 </body>
 

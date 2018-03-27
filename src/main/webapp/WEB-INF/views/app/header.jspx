@@ -2,7 +2,6 @@
      xmlns:jsp="http://java.sun.com/JSP/Page"
      xmlns:spring="http://www.springframework.org/tags"
      version="2.0"
-
 >
     <jsp:directive.page contentType="text/html; charset=UTF-8"/>
     <jsp:output omit-xml-declaration="true"/>
@@ -21,9 +20,9 @@
             </div>
             <div class="collapse navbar-collapse" id="dropdown-menu">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Books</a></li>
-                    <li><a href="#">Authors</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="books">Books</a></li>
+                    <li><a href="authors">Authors</a></li>
                 </ul>
             </div>
         </div>

@@ -3,6 +3,8 @@ package edu.books.entities;
 
 import edu.books.utils.BookQueries;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Fetch;
+
 import static org.hibernate.annotations.CascadeType.*;
 
 import javax.persistence.*;
