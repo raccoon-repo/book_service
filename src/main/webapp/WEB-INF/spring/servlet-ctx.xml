@@ -2,7 +2,7 @@
         xmlns="http://www.springframework.org/schema/mvc"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns:beans="http://www.springframework.org/schema/beans"
-        xmlns:p="http://www.springframework.org/schema/p"
+        xmlns:mvc="http://www.springframework.org/schema/mvc"
         xmlns:context="http://www.springframework.org/schema/context"
         xsi:schemaLocation="http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc.xsd
@@ -11,8 +11,8 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd"
 >
-    <annotation-driven/>
-    <resources mapping="/resources/**" location="/"/>
+    <mvc:annotation-driven/>
+    <mvc:resources mapping="/resources/**" location="/"/>
 
     <beans:bean class="org.springframework.web.servlet.view.UrlBasedViewResolver"
                 id="tilesViewResolver">

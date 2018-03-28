@@ -22,10 +22,10 @@ CREATE TABLE book_author (
   author_id BIGINT
 );
 
-CREATE TABLE tags (
+CREATE TABLE tag (
   book_id BIGINT NOT NULL,
   tag VARCHAR(32)
 );
 
-ALTER TABLE tags
+ALTER TABLE tag
     ADD FOREIGN KEY (book_id) REFERENCES book(id);

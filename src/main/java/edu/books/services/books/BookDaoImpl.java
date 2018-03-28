@@ -4,6 +4,7 @@ import edu.books.entities.Author;
 import edu.books.entities.Book;
 import edu.books.services.authors.AuthorDao;
 import edu.books.utils.BookQueries;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
@@ -26,21 +27,23 @@ public class BookDaoImpl implements BookDao {
     @Override
     @SuppressWarnings("unchecked")
     public List<Book> findAll() {
-        return (List<Book>) sessionFactory.getCurrentSession()
+
+        return (List<Book>) getSession()
                .getNamedQuery(BookQueries.FIND_ALL)
                .list();
     }
 
     @Override
     public Book findById(long id) {
-        return sessionFactory.getCurrentSession()
-               .get(Book.class, id);
+
+        return getSession().get(Book.class, id);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public List<Book> findByTitle(String title) {
-        return (List<Book>) sessionFactory.getCurrentSession()
+
+        return (List<Book>) getSession()
                .getNamedQuery(BookQueries.FIND_BY_TITLE)
                .setParameter("title", title)
                .list();
@@ -51,7 +54,7 @@ public class BookDaoImpl implements BookDao {
     public List<Book> findByAuthor(Author author) {
         if(author.getId() <= 0)
             return null;
-        return (List<Book>)sessionFactory.getCurrentSession()
+        return (List<Book>) getSession()
                .getNamedQuery(BookQueries.FIND_BY_AUTHOR)
                .setParameter("author_id", author.getId())
                .list();
@@ -60,7 +63,7 @@ public class BookDaoImpl implements BookDao {
     @Override
     @SuppressWarnings("unchecked")
     public List<Book> findByPublishDate(Date publishDate) {
-        return (List<Book>) sessionFactory.getCurrentSession()
+        return (List<Book>) getSession()
                .getNamedQuery(BookQueries.FIND_BY_DATE)
                .setParameter("date", publishDate)
                .list();
@@ -69,7 +72,7 @@ public class BookDaoImpl implements BookDao {
     @Override
     @SuppressWarnings("unchecked")
     public List<Book> findByTags(Set<String> tags) {
-        Session session = sessionFactory.getCurrentSession();
+        Session session = getSession();
 
         Set<BigInteger> ids = new HashSet<>();
 
@@ -94,20 +97,20 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public Book save(Book book) {
-        sessionFactory.getCurrentSession().saveOrUpdate(book);
+        getSession().saveOrUpdate(book);
         return book;
     }
 
     @Override
     public Book update(Book book) {
-        sessionFactory.getCurrentSession().update(book);
+        getSession().update(book);
         return book;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public List<Book> findByGenre(Book.Genre genre) {
-        return (List<Book>) sessionFactory.getCurrentSession()
+        return (List<Book>) getSession()
                .getNamedQuery(BookQueries.FIND_BY_GENRE)
                .setParameter("genre", genre)
                .list();
@@ -116,7 +119,7 @@ public class BookDaoImpl implements BookDao {
     @Override
     @SuppressWarnings("unchecked")
     public List<Book> findByRating(Book.Rating rating) {
-        return (List<Book>) sessionFactory.getCurrentSession()
+        return (List<Book>) getSession()
                .getNamedQuery(BookQueries.FIND_BY_RATING)
                .setParameter("rating", rating)
                .list();
@@ -133,9 +136,21 @@ public class BookDaoImpl implements BookDao {
         if(book.getId() <= 0) {
             return;
         }
-        sessionFactory.getCurrentSession().delete(book);
+        getSession().delete(book);
     }
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
+    }
+
+    private Session getSession() {
+        Session session;
+
+        try {
+            session = sessionFactory.getCurrentSession();
+        } catch (HibernateException e) {
+            session = sessionFactory.openSession();
+        }
+
+        return session;
     }
 }

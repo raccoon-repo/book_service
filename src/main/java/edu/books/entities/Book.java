@@ -117,7 +117,7 @@ public class Book implements Serializable {
     }
 
     @ElementCollection @Column(name = "tag")
-    @CollectionTable(name = "tags", joinColumns = @JoinColumn(name = "book_id"))
+    @CollectionTable(name = "tag", joinColumns = @JoinColumn(name = "book_id"))
     public Set<String> getTags() {
         return tags;
     }
@@ -175,38 +175,6 @@ public class Book implements Serializable {
         return (int)(id ^ (id >>> 32));
     }
 
-    @Override
-    public String toString() {
-        return "Book{" +
-                "id:" + id +
-                ", title:'" + title + '\'' +
-                ", genre:" + genre +
-                ", publishDate:" + publishDate +
-                ", rating:" + rating +
-                ", authors:" + getAuthorsString() +
-                '}';
-    }
-
-    @Transient
-    private String getAuthorsString() {
-        StringBuilder builder = new StringBuilder();
-
-        if(authors.size() == 0)
-            return null;
-
-        builder.append("[");
-
-        for(Author author: authors) {
-            builder.append("{firstName:")
-                    .append(author.getFirstName())
-                    .append(", lastName:")
-                    .append(author.getLastName())
-                    .append("}");
-        }
-
-        builder.append("]");
-        return builder.toString();
-    }
 
     @Embeddable
     public static class Genre implements Serializable {
@@ -241,14 +209,6 @@ public class Book implements Serializable {
                 Genre g = (Genre) o;
                 return genre.equals(g.genre);
             }
-        }
-
-        @Override
-        public String toString() {
-            return "{" +
-                    "genre:'" + genre + '\'' +
-                    ", subGenre:'" + subGenre + '\'' +
-                    '}';
         }
     }
 }

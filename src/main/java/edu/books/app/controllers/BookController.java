@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -18,6 +19,15 @@ import java.util.Set;
 public class BookController {
 
     private BookService bookService;
+
+    @RequestMapping(method = RequestMethod.GET)
+    public String listAll(Model uiModel) {
+        List<Book> books = bookService.findAll();
+
+        uiModel.addAttribute("books", books);
+
+        return "books/all";
+    }
 
     @RequestMapping(params = "find", method = RequestMethod.GET)
     public String findForm(Model uiModel) {

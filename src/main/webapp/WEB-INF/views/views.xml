@@ -11,4 +11,8 @@
     <definition extends="default" name="books?find">
         <put-attribute name="content" value="/WEB-INF/views/books/find.jspx"/>
     </definition>
+
+    <definition extends="default" name="books/all">
+        <put-attribute name="content" value="/WEB-INF/views/books/all.jspx"/>
+    </definition>
 </tiles-definitions>
