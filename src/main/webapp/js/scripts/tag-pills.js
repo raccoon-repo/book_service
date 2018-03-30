@@ -1,5 +1,5 @@
 var
-    hidden_input     = document.getElementById("hidden-tags-input"),
+    hidden_input     = document.getElementById("tags"),
     tags_input_field = document.getElementById("tags-input-field"),
     pill_wrapper     = document.getElementById("tag-pills-wrapper"),
     tags             = new Set();

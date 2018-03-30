@@ -7,7 +7,7 @@ $(document).ready(function() {
 
     $('#submit-button').click(function(event) {
         event.preventDefault();
-        var first = true;
+        let first = true;
         tags.forEach(tag => {
             if(first) {
                 hidden_input.value += tag;
@@ -17,30 +17,37 @@ $(document).ready(function() {
             }
         });
 
-        collect_authors_info();
-        var hidden_authors_input = document.getElementById('hidden-authors-input');
-        console.log(hidden_authors_input.value);
+        let authors = document.getElementById("authorsJson");
+        authors.value = parseAuthors();
         $('form').submit();
     });
 });
 
-function collect_authors_info() {
-    var hidden_authors_input = document.getElementById('hidden-authors-input');
-    var first = true;
-    for(var i = 1; i <= authors; i++) {
-        var id        = document.getElementById('author-id-' + i).value;
-        id = (id === "") ? "0": id;
-        var lastName  = document.getElementById('author-last-name-' + i).value;
-        var firstName = document.getElementById('author-first-name-' + i).value;
+function parseAuthors() {
+    let json = "{\"authors\":[";
 
-        var json = "{\"id\":" + '\"' + id + '\"' +
-            ",\"firstName\":" + '\"' + firstName + '\"' +
-            ",\"lastName\":" + '\"' + lastName + '\"' + "}";
-        if(first) {
-            hidden_authors_input.value += json;
-            first = false;
+    let id, firstName, lastName, author;
+
+    //authors variable declared inside authors.js
+    for(let i = 1; i <= authors; i++) {
+        id        = document.getElementById("author-id-" + i).value;
+        firstName = document.getElementById("author-first-name-" + i).value;
+        lastName  = document.getElementById("author-last-name-" + i).value;
+
+        id = id === "" ? 0: id;
+
+        author = "{\"id\":" + id + ", " +
+                 "\"firstName\":\"" + firstName + "\"," +
+                 "\"lastName\":\"" + lastName + "\"}";
+
+        if(authors !== 1 && i !== authors) {
+            json += author + ","
         } else {
-            hidden_authors_input.value += (';' + json);
+            json += author;
         }
     }
+
+    json +="]}";
+
+    return json;
 }

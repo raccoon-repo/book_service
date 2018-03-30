@@ -20,7 +20,7 @@
             </div>
             <div class="collapse navbar-collapse" id="dropdown-menu">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/">Home</a></li>
+                    <li><a href="/book-service">Home</a></li>
                     <li><a href="books">Books</a></li>
                     <li><a href="authors">Authors</a></li>
                 </ul>

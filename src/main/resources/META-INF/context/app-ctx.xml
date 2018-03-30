@@ -43,6 +43,8 @@
         <prop key="hibernate.show_sql">true</prop>
     </util:properties>
 
+    <bean id="bookQueryHandler" class="edu.books.app.model.BookQueryHandler" scope="prototype"/>
+
     <context:property-placeholder location="classpath:META-INF/context/jdbc.properties"/>
 
     <context:component-scan base-package="edu.books"/>

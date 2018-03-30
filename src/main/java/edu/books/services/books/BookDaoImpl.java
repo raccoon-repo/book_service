@@ -4,6 +4,7 @@ import edu.books.entities.Author;
 import edu.books.entities.Book;
 import edu.books.services.authors.AuthorDao;
 import edu.books.utils.BookQueries;
+import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -17,6 +18,8 @@ import java.util.*;
 @Repository("bookDao")
 @Transactional
 public class BookDaoImpl implements BookDao {
+
+    private static final Logger log = Logger.getLogger(BookDaoImpl.class);
 
     @Resource(name = "hibernateSessionFactory")
     private SessionFactory sessionFactory;
@@ -144,10 +147,12 @@ public class BookDaoImpl implements BookDao {
 
     private Session getSession() {
         Session session;
-
+        log.debug("trying to obtain current session");
         try {
             session = sessionFactory.getCurrentSession();
+            log.debug("obtained session successfully");
         } catch (HibernateException e) {
+            log.error("Exception:", e);
             session = sessionFactory.openSession();
         }
 

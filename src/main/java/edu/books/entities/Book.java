@@ -175,6 +175,16 @@ public class Book implements Serializable {
         return (int)(id ^ (id >>> 32));
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if(o instanceof Book) {
+            Book b = (Book)o;
+
+            return id == b.id;
+        }
+        return false;
+    }
+
 
     @Embeddable
     public static class Genre implements Serializable {

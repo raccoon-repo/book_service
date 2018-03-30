@@ -12,7 +12,7 @@
     <spring:url value="/resources/js/scripts/tag-pills.js" var="tagPillsJs"/>
     <spring:url value="/resources/js/scripts/toggle-glyphicon.js" var="toggleGlyphJs"/>
 
-    <form:form action="" modelAttribute="bookQuery">
+    <form:form action="" method="POST" modelAttribute="bookQuery">
         <div class="form-body">
             <!-- TITLE -->
             <div class="row">
@@ -25,7 +25,7 @@
                     <div class="col-xs-12 no-padding">
                         <div class="form-group">
                             <form:label for="title" path="title">title</form:label>
-                            <form:input type="text" path="title" class="form-control"/>
+                            <form:input type="text" class="form-control" path="title"/>
                         </div>
                     </div>
                 </div>
@@ -47,18 +47,18 @@
                             </div>
                             <div class="form-group">
                                 <label for="author-id-1" path="author-id-1">id     </label>
-                                <input type="text" id="author-id-1" path="author-id-1" class="form-control"
+                                <input type="text" id="author-id-1" class="form-control"
                                        pattern="\d{0,8}"
                                 />
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6 no-padding">
                             <div class="form-group">
-                                <label for="author-last-name" path="author-first-name-1">
+                                <label for="author-first-name-1" path="author-first-name-1">
                                     first name
                                 </label>
                                 <input type="text" id="author-first-name-1" class="form-control"
-                                       pattern="\w{0,64}" path="author-first-name-1"
+                                       pattern="\w{0,64}"
                                 />
                             </div>
                         </div>
@@ -72,7 +72,8 @@
                         </div>
                     </div>
                 </div>
-                <form:input type="hidden" id="hidden-authors-input" value="" path="authors"/>
+
+                <form:input type="hidden" value="authorsJson" path="authorsJson"/>
             </div>
 
             <!-- GENRE -->
@@ -85,20 +86,16 @@
                 <div class="collapse col-xs-12 form-groups" id="genre-inputs">
                     <div class="col-xs-12 col-sm-6 no-padding">
                         <div class="form-group">
-                            <form:label for="genre" path="genre">genre</form:label>
-                            <form:input type="text" id="genre" class="form-control"
-                                        path="genre"
-                            />
+                            <label for="genre">genre</label>
+                            <form:input type="text" id="genre" path="genre" class="form-control"/>
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-6 no-padding">
                         <div class="form-group">
-                            <form:label for="sub-genre" path="subGenre">
+                            <label for="sub-genre">
                                 sub-genre
-                            </form:label>
-                            <form:input type="text" id="sub-genre" path="subGenre"
-                                        class="form-control"
-                            />
+                            </label>
+                            <form:input type="text" id="sub-genre" path="subGenre" class="form-control"/>
                         </div>
                     </div>
                 </div>
@@ -137,7 +134,7 @@
                         <div id="tag-pills-wrapper">
 
                         </div>
-                        <form:input type="hidden" path="tags" id="hidden-tags-input" value=""/>
+                        <input type="hidden" id="tags" value=""/>
                     </div>
                 </div>
             </div>

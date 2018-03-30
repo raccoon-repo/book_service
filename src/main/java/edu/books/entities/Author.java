@@ -1,5 +1,6 @@
 package edu.books.entities;
 
+import edu.books.app.model.BookQuery;
 import edu.books.utils.AuthorQueries;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Fetch;
@@ -126,12 +127,7 @@ public class Author implements Serializable {
     }
 
     @Override
-    public String toString() {
-        return "Author{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", books=" + books +
-                '}';
+    public int hashCode() {
+        return (int)(id ^ (id >>> 32));
     }
 }
