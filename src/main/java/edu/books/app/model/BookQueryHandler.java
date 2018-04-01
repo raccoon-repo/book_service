@@ -12,10 +12,8 @@ import org.springframework.util.StopWatch;
 import javax.json.Json;
 import javax.json.stream.JsonParser;
 import java.io.StringReader;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+
 import org.apache.log4j.Logger;
 
 
@@ -26,6 +24,7 @@ public class BookQueryHandler {
     private Set<Author> authors  = new HashSet<>();
     private Book.Rating rating;
 
+    private static final String LOG_DELIM = "\n-------------------------------------------------------\n";
     private static final Logger log = Logger.getLogger(BookQueryHandler.class);
 
     private BookQuery bookQuery;
@@ -51,8 +50,17 @@ public class BookQueryHandler {
     public void setRating(Book.Rating rating) { this.rating = rating; }
 
     public Set<Book> handle() {
+        log.info(LOG_DELIM);
+        log.info(new Date());
+        log.info("\tHandling a search");
         StopWatch timer = new StopWatch();
-        log.info("Handling a request");
+
+        List<Book> byTitle;
+        List<Book> byTags;
+        List<Book> byRating;
+        List<Book> byGenre;
+        List<Book> byAuthors;
+
         timer.start();
         parseAuthors();
         parseGenre();
@@ -61,21 +69,25 @@ public class BookQueryHandler {
 
         Set<Book> resultSet = new HashSet<>();
 
-        resultSet.addAll(bookService.findByTitle(bookQuery.getTitle()));
-        log.info(BookUtils.booksAsString(resultSet));
-        resultSet.addAll(bookService.findByRating(rating));
-        log.info(BookUtils.booksAsString(resultSet));
-        resultSet.addAll(bookService.findByTags(tags));
-        log.info(BookUtils.booksAsString(resultSet));
-        resultSet.addAll(bookService.findByGenre(genre));
-        log.info(BookUtils.booksAsString(resultSet));
-        authors.forEach(author -> {
-            resultSet.addAll(bookService.findByAuthor(author));
-            log.info(BookUtils.booksAsString(resultSet));
-        });
+        byTitle = bookService.findByTitle(bookQuery.getTitle());
+        resultSet.addAll(byTitle);
+
+        byTags = bookService.findByTags(tags);
+        resultSet.addAll(byTags);
+
+        byRating = bookService.findByRating(rating);
+        resultSet.addAll(byRating);
+
+        byGenre = bookService.findByGenre(genre);
+        resultSet.addAll(byGenre);
+
+        for(Author a: authors) {
+            byAuthors = bookService.findByAuthor(a);
+            resultSet.addAll(byAuthors);
+        }
 
         timer.stop();
-        log.info("handling took " + timer.getTotalTimeMillis() + "ms");
+        log.info("\tHandling a search took" + timer.getTotalTimeMillis());
         return resultSet;
     }
 
@@ -115,7 +127,7 @@ public class BookQueryHandler {
     }
 
     private void parseAuthors(){
-        log.info("\tparsing " + bookQuery.getAuthorsJson());
+        log.info("\tParsing authors");
         StopWatch timer = new StopWatch();
         timer.start();
 
@@ -168,10 +180,8 @@ public class BookQueryHandler {
                 }
             }
         }
-
         timer.stop();
-
-        log.info("\tparsing took " + timer.getTotalTimeMillis());
+        log.info("\t\tParsing took " + timer.getTotalTimeMillis());
     }
 
     public BookService getBookService() {

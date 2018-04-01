@@ -5,7 +5,6 @@ import edu.books.entities.Book;
 import edu.books.services.authors.AuthorDao;
 import edu.books.utils.BookQueries;
 import org.apache.log4j.Logger;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
@@ -30,8 +29,7 @@ public class BookDaoImpl implements BookDao {
     @Override
     @SuppressWarnings("unchecked")
     public List<Book> findAll() {
-
-        return (List<Book>) getSession()
+        return (List<Book>) sessionFactory.getCurrentSession()
                .getNamedQuery(BookQueries.FIND_ALL)
                .list();
     }
@@ -39,25 +37,26 @@ public class BookDaoImpl implements BookDao {
     @Override
     public Book findById(long id) {
 
-        return getSession().get(Book.class, id);
+        return sessionFactory.getCurrentSession()
+               .get(Book.class, id);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public List<Book> findByTitle(String title) {
-
-        return (List<Book>) getSession()
+        return (List<Book>) sessionFactory.getCurrentSession()
                .getNamedQuery(BookQueries.FIND_BY_TITLE)
-               .setParameter("title", title)
+               .setParameter("title", '%' + title + '%')
                .list();
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public List<Book> findByAuthor(Author author) {
-        if(author.getId() <= 0)
+        if(author.getId() <= 0) {
             return null;
-        return (List<Book>) getSession()
+        }
+        return (List<Book>) sessionFactory.getCurrentSession()
                .getNamedQuery(BookQueries.FIND_BY_AUTHOR)
                .setParameter("author_id", author.getId())
                .list();
@@ -66,7 +65,7 @@ public class BookDaoImpl implements BookDao {
     @Override
     @SuppressWarnings("unchecked")
     public List<Book> findByPublishDate(Date publishDate) {
-        return (List<Book>) getSession()
+        return (List<Book>) sessionFactory.getCurrentSession()
                .getNamedQuery(BookQueries.FIND_BY_DATE)
                .setParameter("date", publishDate)
                .list();
@@ -75,10 +74,9 @@ public class BookDaoImpl implements BookDao {
     @Override
     @SuppressWarnings("unchecked")
     public List<Book> findByTags(Set<String> tags) {
-        Session session = getSession();
+        Session session = sessionFactory.getCurrentSession();
 
         Set<BigInteger> ids = new HashSet<>();
-
         for(String tag: tags) {
             tag = tag.toLowerCase().trim();
             ids.addAll(
@@ -100,20 +98,20 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public Book save(Book book) {
-        getSession().saveOrUpdate(book);
+        sessionFactory.getCurrentSession().saveOrUpdate(book);
         return book;
     }
 
     @Override
     public Book update(Book book) {
-        getSession().update(book);
+        sessionFactory.getCurrentSession().update(book);
         return book;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public List<Book> findByGenre(Book.Genre genre) {
-        return (List<Book>) getSession()
+        return (List<Book>) sessionFactory.getCurrentSession()
                .getNamedQuery(BookQueries.FIND_BY_GENRE)
                .setParameter("genre", genre)
                .list();
@@ -122,7 +120,7 @@ public class BookDaoImpl implements BookDao {
     @Override
     @SuppressWarnings("unchecked")
     public List<Book> findByRating(Book.Rating rating) {
-        return (List<Book>) getSession()
+        return (List<Book>) sessionFactory.getCurrentSession()
                .getNamedQuery(BookQueries.FIND_BY_RATING)
                .setParameter("rating", rating)
                .list();
@@ -136,26 +134,11 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public void delete(Book book) {
-        if(book.getId() <= 0) {
+        if(book.getId() <= 0)
             return;
-        }
-        getSession().delete(book);
+        sessionFactory.getCurrentSession().delete(book);
     }
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
-    }
-
-    private Session getSession() {
-        Session session;
-        log.debug("trying to obtain current session");
-        try {
-            session = sessionFactory.getCurrentSession();
-            log.debug("obtained session successfully");
-        } catch (HibernateException e) {
-            log.error("Exception:", e);
-            session = sessionFactory.openSession();
-        }
-
-        return session;
     }
 }

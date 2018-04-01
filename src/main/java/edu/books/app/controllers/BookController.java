@@ -17,28 +17,40 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Controller
 @RequestMapping("/books")
 public class BookController implements ApplicationContextAware {
 
-    private ApplicationContext ctx;
-
+    private static final String LOG_DELIM = "\n-------------------------------------------------------\n";
     private static final Logger log = Logger.getLogger(BookController.class);
 
+    private ApplicationContext ctx;
     private BookService bookService;
 
     @RequestMapping(method = RequestMethod.GET)
     public String listAll(Model uiModel) {
         List<Book> books = bookService.findAll();
-        uiModel.addAttribute("books", books);
 
+        StringBuilder model = new StringBuilder();
+        for (Map.Entry<String, Object> e : uiModel.asMap().entrySet()) {
+            model.append(e);
+        }
+
+        log.info("Model: " + model.toString());
+        uiModel.addAttribute("books", books);
+        model = new StringBuilder();
+
+        for (Map.Entry<String, Object> e : uiModel.asMap().entrySet()) {
+            model.append(e);
+        }
         return "books/all";
     }
 
     @RequestMapping(params = "find", method = RequestMethod.GET)
-    public String findForm(Model uiModel) {
+    public String getForm(Model uiModel) {
         BookQuery bookQuery = new BookQuery();
 
         uiModel.addAttribute("bookQuery", bookQuery);
@@ -51,7 +63,6 @@ public class BookController implements ApplicationContextAware {
     {
         BookQueryHandler handler = ctx.getBean("bookQueryHandler", BookQueryHandler.class);
         handler.setBookQuery(query);
-
         Set<Book> resultSet = handler.handle();
 
         uiModel.asMap().clear();

@@ -10,7 +10,6 @@
             <div class="col-xs-12 table-responsive">
                 <table class="table table-bordered table-striped">
                     <tr>
-                        <th>id</th>
                         <th>title</th>
                         <th>genre</th>
                         <th>sub genre</th>
@@ -20,12 +19,7 @@
                 <c:if test="${not empty books}">
                     <c:forEach items="${books}" var="book">
                         <tr>
-                            <td>
-                                <a href="/book-service/books/${book.id}?form">
-                                    ${book.id}
-                                </a>
-                            </td>
-                            <td>${book.title}</td>
+                            <td><a href="/book-service/books/${book.id}">${book.title}</a></td>
                             <td>
                                 <c:if test="${not empty book.genre}">
                                     ${book.genre.genre}
@@ -34,18 +28,19 @@
                             <td>
                                 <c:if test="${not empty book.genre}">
                                     ${book.genre.subGenre}
-                                </c:if>
+                                    </c:if>
                             </td>
                             <td>date</td>
                             <td>
                                 <c:if test="${not empty book.authors}">
                                     <ul>
                                         <c:forEach items="${book.authors}" var="author">
-                                            <li>
-                                                <span><a href="">${author.id} </a></span>
-                                                <span>${author.firstName} </span>
-                                                <span>${author.lastName}</span>
-                                            </li>
+                                            <a href="/book-service/authors/${author.id}">
+                                                <li>
+                                                    <span>${author.firstName} </span>
+                                                    <span>${author.lastName}</span>
+                                                </li>
+                                            </a>
                                         </c:forEach>
                                     </ul>
                                 </c:if>

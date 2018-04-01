@@ -3,7 +3,6 @@ package edu.books.entities;
 
 import edu.books.utils.BookQueries;
 import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.Fetch;
 
 import static org.hibernate.annotations.CascadeType.*;
 
@@ -20,7 +19,7 @@ import java.util.*;
     @NamedQuery(name = BookQueries.FIND_BY_TITLE, query = BookQueries.FIND_BY_TITLE_QUERY),
     @NamedQuery(name = BookQueries.FIND_BY_GENRE, query = BookQueries.FIND_BY_GENRE_QUERY),
     @NamedQuery(name = BookQueries.FIND_BY_DATE, query = BookQueries.FIND_BY_DATE_QUERY),
-    @NamedQuery(name= BookQueries.FIND_BY_RATING, query = BookQueries.FIND_BY_RATING_QERY)
+    @NamedQuery(name= BookQueries.FIND_BY_RATING, query = BookQueries.FIND_BY_RATING_QUERY)
 })
 public class Book implements Serializable {
 

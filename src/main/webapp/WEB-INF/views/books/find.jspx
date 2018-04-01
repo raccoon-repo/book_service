@@ -134,7 +134,7 @@
                         <div id="tag-pills-wrapper">
 
                         </div>
-                        <input type="hidden" id="tags" value=""/>
+                        <form:input type="hidden" id="tags" path="tags" value=""/>
                     </div>
                 </div>
             </div>
