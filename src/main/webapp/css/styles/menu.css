@@ -14,12 +14,16 @@
 
 a.service-ref {
     text-decoration: none;
+    color: #424453;!important;
+
 }
 
 a.service-ref:hover {
     text-decoration: none;
+    color: #8a8a98;!important;
 }
 
 a.service-ref:active {
     text-decoration: none;
+    color: #8a8a98;!important;
 }

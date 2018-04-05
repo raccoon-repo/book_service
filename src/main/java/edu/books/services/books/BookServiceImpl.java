@@ -17,6 +17,11 @@ public class BookServiceImpl implements BookService {
     private BookDao bookDao;
 
     @Override
+    public Book findById(long id) {
+        return bookDao.findById(id);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public List<Book> findAll() {
         return bookDao.findAll();

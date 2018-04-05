@@ -1,19 +1,20 @@
 CREATE TABLE book (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  title VARCHAR(255) NOT NULL,
-  genre VARCHAR(255),
-  sub_genre VARCHAR(255),
+  title VARCHAR(112) NOT NULL,
+  genre VARCHAR(32),
+  sub_genre VARCHAR(32),
   publish_date DATE,
-  rating VARCHAR(32),
-  version BIGINT NOT NULL DEFAULT 0,
+  rating VARCHAR(16),
+  version INTEGER NOT NULL DEFAULT 0,
+  description VARCHAR(1024),
   cover BLOB
 );
 
 CREATE TABLE author (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  first_name VARCHAR(255),
-  last_name VARCHAR(255),
-  version BIGINT NOT NULL DEFAULT 0,
+  first_name VARCHAR(32),
+  last_name VARCHAR(32),
+  version INTEGER NOT NULL DEFAULT 0,
   photo BLOB
 );
 

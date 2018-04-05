@@ -7,6 +7,7 @@ import edu.books.services.books.BookService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.Map;
@@ -30,23 +33,15 @@ public class BookController implements ApplicationContextAware {
     private ApplicationContext ctx;
     private BookService bookService;
 
+    //TODO Will finish this method later
     @RequestMapping(method = RequestMethod.GET)
-    public String listAll(Model uiModel) {
+    public ModelAndView listAll(@RequestParam("page") Integer page) {
+        ModelAndView modelAndView = new ModelAndView("books/all");
         List<Book> books = bookService.findAll();
+        PagedListHolder<Book> booksHolder = new PagedListHolder<>(books);
+        booksHolder.setPageSize(7);
 
-        StringBuilder model = new StringBuilder();
-        for (Map.Entry<String, Object> e : uiModel.asMap().entrySet()) {
-            model.append(e);
-        }
-
-        log.info("Model: " + model.toString());
-        uiModel.addAttribute("books", books);
-        model = new StringBuilder();
-
-        for (Map.Entry<String, Object> e : uiModel.asMap().entrySet()) {
-            model.append(e);
-        }
-        return "books/all";
+        return modelAndView;
     }
 
     @RequestMapping(params = "find", method = RequestMethod.GET)

@@ -1,0 +1,53 @@
+#cover-wrapper {
+    padding: 10px;
+    max-width: 266px;
+    max-height: 394px;
+    margin: 5px auto;
+    border: 2px solid rgb(205, 205, 205);
+    border-radius: 5px;
+}
+
+#view-book-container {
+    border-right: 1px solid rgb(226, 226, 226);
+    border-left: 1px solid rgb(226, 226, 226);
+}
+
+#rating {
+    text-align: center;
+    font-size: 25px;
+}
+
+.row {
+    margin-top:15px;
+    margin-bottom: 15px;
+}
+
+.img-center {
+    display: block;
+    margin: 0 auto;
+    width: 70%;
+}
+
+.description {
+    text-align: justify;
+}
+
+.info-section {
+    list-style-type: none;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.colored-star {
+    color: rgb(235, 179, 28);
+}
+
+.glyphicon {
+    cursor: pointer;
+}
+
+.pagination {
+    display: block;!important;
+    margin: 0 auto;
+    width: 216px;
+}

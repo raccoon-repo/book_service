@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Set;
 
 public interface BookService {
+    Book findById(long id);
+
     List<Book> findAll();
     List<Book> findByTitle(String title);
     List<Book> findByAuthor(Author author);

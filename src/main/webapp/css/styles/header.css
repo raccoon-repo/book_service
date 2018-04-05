@@ -1,5 +1,5 @@
 .navbar {
-    background-color: #308e56;
+    background-color: #424453;
     color: #FFF;
     font-size: 1.2em;
     border: 0px;
@@ -22,6 +22,74 @@
 .navbar-inverse .navbar-toggle,
 .navbar-inverse .navbar-toggle:hover,
 .navbar-inverse .navbar-toggle:focus {
-    background-color: #308e56;
+    background-color: #424453;
     border-color: #FFF;
+}
+
+.center-absolute {
+    left: 30%;
+    position: absolute;
+}
+
+.search-form-container {
+    max-width: 500px;
+    width: 500px;
+    min-width: 200px;
+}
+
+#search-category-btn {
+    height: 34px;
+}
+
+#search-input {
+    max-width: 400px;
+    min-width: 125px;
+}
+
+#search-btn {
+    height: 34px
+}
+
+#input-group-wrapper {
+    max-width: 468px;
+    min-width: 195px;
+}
+
+@media screen and (max-width: 768px) {
+    .header-search-inputs {
+
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .header-search-inputs {
+        position: absolute;
+        left: 15%;
+    }
+    #search-input {
+        width: 300px;
+    }
+}
+
+@media screen and (min-width: 852px) {
+    .header-search-inputs {
+        position: absolute;
+        left: 25%;
+    }
+
+    #search-input {
+        width: 320px;
+    }
+
+}
+
+@media screen and (min-width: 992px) {
+    .header-search-inputs {
+        position: absolute;
+        left: 27%;
+    }
+
+    #search-input {
+        width: 400px;
+    }
 }

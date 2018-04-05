@@ -33,6 +33,8 @@ public class Book implements Serializable {
 
     private Date publishDate;
 
+    private String description;
+
     private byte[] cover;
 
     private Rating rating;
@@ -142,6 +144,15 @@ public class Book implements Serializable {
 
     public void setGenre(Genre genre) {
         this.genre = genre;
+    }
+
+    @Column(name="description")
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     /* ********** ********** ********** */
