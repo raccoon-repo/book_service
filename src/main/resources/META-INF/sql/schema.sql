@@ -4,9 +4,9 @@ CREATE TABLE book (
   genre VARCHAR(32),
   sub_genre VARCHAR(32),
   publish_date DATE,
-  rating VARCHAR(16),
+  ratingShortcut VARCHAR(16),
   version INTEGER NOT NULL DEFAULT 0,
-  description VARCHAR(1024),
+  description VARCHAR(1536),
   cover BLOB
 );
 

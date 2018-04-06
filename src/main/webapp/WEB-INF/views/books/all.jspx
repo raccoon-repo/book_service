@@ -30,22 +30,22 @@
                             </div>
                         </div>
 
-                        <!-- Rating Section -->
+                        <!-- RatingShortcut Section -->
                         <div>
-                            <div id="rating">
-                                <span class="glyphicon glyphicon-star" id="glyph-rating-1">
+                            <div id="ratingShortcut">
+                                <span class="glyphicon glyphicon-star" id="glyph-ratingShortcut-1">
                                     <jsp:text/>
                                 </span>
-                                <span class="glyphicon glyphicon-star" id="glyph-rating-2">
+                                <span class="glyphicon glyphicon-star" id="glyph-ratingShortcut-2">
                                     <jsp:text/>
                                 </span>
-                                <span class="glyphicon glyphicon-star" id="glyph-rating-3">
+                                <span class="glyphicon glyphicon-star" id="glyph-ratingShortcut-3">
                                     <jsp:text/>
                                 </span>
-                                <span class="glyphicon glyphicon-star" id="glyph-rating-4">
+                                <span class="glyphicon glyphicon-star" id="glyph-ratingShortcut-4">
                                     <jsp:text/>
                                 </span>
-                                <span class="glyphicon glyphicon-star" id="glyph-rating-5">
+                                <span class="glyphicon glyphicon-star" id="glyph-ratingShortcut-5">
                                     <jsp:text/>
                                 </span>
                             </div>
@@ -82,7 +82,7 @@
                         </div>
                     </div>
                 </div>
-                <input type="hidden" value="${book.rating}"/>
+                <input type="hidden" value="${book.ratingShortcut}"/>
             </div>
             <hr/>
             </c:forEach>

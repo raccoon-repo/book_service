@@ -14,7 +14,7 @@ public interface BookService {
     List<Book> findByTitle(String title);
     List<Book> findByAuthor(Author author);
     List<Book> findByPublishDate(Date date);
-    List<Book> findByRating(Book.Rating rating);
+    List<Book> findByRating(Book.RatingShortcut ratingShortcut);
     List<Book> findByGenre(Book.Genre genre);
     List<Book> findByTags(Set<String> tags);
 

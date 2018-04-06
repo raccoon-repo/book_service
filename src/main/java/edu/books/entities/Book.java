@@ -3,9 +3,11 @@ package edu.books.entities;
 
 import edu.books.utils.BookQueries;
 import org.hibernate.annotations.Cascade;
+import static edu.books.utils.OrderedBookQueries.*;
 
 import static org.hibernate.annotations.CascadeType.*;
 
+import javax.inject.Named;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
@@ -19,7 +21,20 @@ import java.util.*;
     @NamedQuery(name = BookQueries.FIND_BY_TITLE, query = BookQueries.FIND_BY_TITLE_QUERY),
     @NamedQuery(name = BookQueries.FIND_BY_GENRE, query = BookQueries.FIND_BY_GENRE_QUERY),
     @NamedQuery(name = BookQueries.FIND_BY_DATE, query = BookQueries.FIND_BY_DATE_QUERY),
-    @NamedQuery(name= BookQueries.FIND_BY_RATING, query = BookQueries.FIND_BY_RATING_QUERY)
+    @NamedQuery(name= BookQueries.FIND_BY_RATING, query = BookQueries.FIND_BY_RATING_QUERY),
+    @NamedQuery(
+        name = BookQueries.FIND_BY_RATING_SHORTCUT,
+        query = BookQueries.FIND_BY_RATING_SHORTCUT_QUERY
+    ),
+
+    /* ******** ordered queries ******** */
+
+    @NamedQuery(name = FIND_ALL, query = FIND_ALL_QUERY),
+    @NamedQuery(name = FIND_BY_AUTHOR, query = FIND_BY_AUTHOR_QUERY),
+    @NamedQuery(name = FIND_BY_TITLE, query = FIND_BY_TITLE_QUERY),
+    @NamedQuery(name = FIND_BY_GENRE, query = FIND_BY_GENRE_QUERY),
+    @NamedQuery(name = FIND_BY_RATING, query = FIND_BY_RATING_QUERY),
+    @NamedQuery(name = FIND_BY_DATE, query = FIND_BY_DATE_QUERY),
 })
 public class Book implements Serializable {
 
@@ -37,7 +52,7 @@ public class Book implements Serializable {
 
     private byte[] cover;
 
-    private Rating rating;
+    private float rating;
 
     private List<Author> authors = new ArrayList<>();
 
@@ -127,13 +142,12 @@ public class Book implements Serializable {
         this.tags = tags;
     }
 
-    @Enumerated(EnumType.STRING)
-    @Column(name="rating")
-    public Rating getRating() {
+    @Column(name = "rating")
+    public float getRating() {
         return rating;
     }
 
-    public void setRating(Rating rating) {
+    public void setRating(float rating) {
         this.rating = rating;
     }
 
@@ -176,7 +190,7 @@ public class Book implements Serializable {
         tags.remove(tag.toLowerCase());
     }
 
-    public enum Rating {
+    public enum RatingShortcut {
         WORST, BAD, OKAY, GOOD, BEST
     }
 

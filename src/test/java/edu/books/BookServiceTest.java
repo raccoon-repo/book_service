@@ -13,7 +13,6 @@ import org.springframework.context.support.GenericXmlApplicationContext;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -96,14 +95,14 @@ public class BookServiceTest {
 
         book1.setTitle("First Book");
         book1.setPublishDate(new Date());
-        book1.setRating(Book.Rating.OKAY);
+        book1.setRating(7.3f);
         book1.setGenre(genre1);
         book1.addAuthor(author1);
         book1.addTag(tag_detective);
 
         book2.setTitle("Second Book");
         book2.setPublishDate(new Date());
-        book2.setRating(Book.Rating.BAD);
+        book2.setRating(9.2f);
         book2.setGenre(genre1);
         book2.addAuthor(author2);
         book2.addAuthor(author1);
@@ -112,7 +111,7 @@ public class BookServiceTest {
 
         book3.setTitle("Third Book");
         book3.setPublishDate(new Date());
-        book3.setRating(Book.Rating.OKAY);
+        book3.setRating(7.7f);
         book3.setGenre(genre2);
         book3.addAuthor(author1);
         book3.addAuthor(author5);
@@ -120,38 +119,38 @@ public class BookServiceTest {
 
         book4.setTitle("Fourth Book");
         book4.setPublishDate(new Date());
-        book4.setRating(Book.Rating.OKAY);
+        book4.setRating(7.7f);
         book4.setGenre(genre3);
         book4.addAuthor(author1);
 
         book5.setTitle("Fifth Book");
         book5.setPublishDate(new Date());
-        book5.setRating(Book.Rating.OKAY);
+        book5.setRating(7.3f);
         book5.setGenre(genre2);
         book5.addAuthor(author2);
 
         book6.setTitle("Sixth Book");
         book6.setPublishDate(new Date());
-        book6.setRating(Book.Rating.OKAY);
+        book6.setRating(7.2f);
         book6.setGenre(genre1);
         book6.addAuthor(author3);
 
         book7.setTitle("Seventh Book");
         book7.setPublishDate(new Date());
-        book7.setRating(Book.Rating.OKAY);
+        book7.setRating(8.0f);
         book7.setGenre(genre3);
         book7.addAuthor(author4);
 
         book8.setTitle("Eighth Book");
         book8.setPublishDate(new Date());
-        book8.setRating(Book.Rating.OKAY);
+        book8.setRating(9.1f);
         book8.setGenre(genre3);
         book8.addAuthor(author3);
         book8.addAuthor(author4);
 
         book9.setTitle("Ninth Book");
         book9.setPublishDate(new Date());
-        book9.setRating(Book.Rating.OKAY);
+        book9.setRating(3.2f);
         book9.addAuthor(author5);
         book9.setGenre(genre1);
 
@@ -252,7 +251,7 @@ public class BookServiceTest {
         books.forEach(System.out::println);
         System.out.println();
 
-        books = bookService.findByRating(Book.Rating.OKAY);
+        books = bookService.findByRating(Book.RatingShortcut.OKAY);
 
         assertNotNull(books);
         System.out.println("\n" + line);

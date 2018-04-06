@@ -47,8 +47,8 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Book> findByRating(Book.Rating rating) {
-        return bookDao.findByRating(rating);
+    public List<Book> findByRating(Book.RatingShortcut ratingShortcut) {
+        return bookDao.findByRating(ratingShortcut);
     }
 
     @Override

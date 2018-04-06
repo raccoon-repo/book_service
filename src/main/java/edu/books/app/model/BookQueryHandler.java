@@ -4,7 +4,6 @@ import edu.books.entities.Author;
 import edu.books.entities.Book;
 import edu.books.services.authors.AuthorDao;
 import edu.books.services.books.BookService;
-import edu.books.utils.BookUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
@@ -22,7 +21,7 @@ public class BookQueryHandler {
     private Set<String> tags     = new HashSet<>();
     private Book.Genre  genre    = new Book.Genre();
     private Set<Author> authors  = new HashSet<>();
-    private Book.Rating rating;
+    private Book.RatingShortcut ratingShortcut;
 
     private static final String LOG_DELIM = "\n-------------------------------------------------------\n";
     private static final Logger log = Logger.getLogger(BookQueryHandler.class);
@@ -45,9 +44,9 @@ public class BookQueryHandler {
 
     public void setTags(Set<String> tags) { this.tags = tags; }
 
-    public Book.Rating getRating() { return rating; }
+    public Book.RatingShortcut getRatingShortcut() { return ratingShortcut; }
 
-    public void setRating(Book.Rating rating) { this.rating = rating; }
+    public void setRatingShortcut(Book.RatingShortcut ratingShortcut) { this.ratingShortcut = ratingShortcut; }
 
     public Set<Book> handle() {
         log.info(LOG_DELIM);
@@ -75,7 +74,7 @@ public class BookQueryHandler {
         byTags = bookService.findByTags(tags);
         resultSet.addAll(byTags);
 
-        byRating = bookService.findByRating(rating);
+        byRating = bookService.findByRating(ratingShortcut);
         resultSet.addAll(byRating);
 
         byGenre = bookService.findByGenre(genre);
@@ -108,19 +107,19 @@ public class BookQueryHandler {
         if (rating != null) {
             switch (rating) {
                 case "good":
-                    this.rating = Book.Rating.GOOD;
+                    this.ratingShortcut = Book.RatingShortcut.GOOD;
                     break;
                 case "okay":
-                    this.rating = Book.Rating.OKAY;
+                    this.ratingShortcut = Book.RatingShortcut.OKAY;
                     break;
                 case "best":
-                    this.rating = Book.Rating.BEST;
+                    this.ratingShortcut = Book.RatingShortcut.BEST;
                     break;
                 case "bad":
-                    this.rating = Book.Rating.BAD;
+                    this.ratingShortcut = Book.RatingShortcut.BAD;
                     break;
                 case "worst":
-                    this.rating = Book.Rating.WORST;
+                    this.ratingShortcut = Book.RatingShortcut.WORST;
                     break;
             }
         }

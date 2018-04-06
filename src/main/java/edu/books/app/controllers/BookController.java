@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 @Controller
@@ -33,13 +34,19 @@ public class BookController implements ApplicationContextAware {
     private ApplicationContext ctx;
     private BookService bookService;
 
-    //TODO Will finish this method later
+    //TODO Will later finish this method
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView listAll(@RequestParam("page") Integer page) {
+    public ModelAndView listAll(@RequestParam("page") Optional<Integer> page) {
         ModelAndView modelAndView = new ModelAndView("books/all");
         List<Book> books = bookService.findAll();
         PagedListHolder<Book> booksHolder = new PagedListHolder<>(books);
         booksHolder.setPageSize(7);
+
+        if(page.isPresent()) {
+
+        } else {
+
+        }
 
         return modelAndView;
     }

@@ -14,6 +14,8 @@ import javax.annotation.Resource;
 import java.math.BigInteger;
 import java.util.*;
 
+import static edu.books.entities.Book.RatingShortcut.*;
+
 @Repository("bookDao")
 @Transactional
 public class BookDaoImpl implements BookDao {
@@ -119,11 +121,34 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<Book> findByRating(Book.Rating rating) {
+    public List<Book> findByRating(Book.RatingShortcut ratingShortcut) {
+        switch (ratingShortcut) {
+            case WORST:
+                return findByRating(0.0f, 2.0f);
+            case BAD:
+                return findByRating(2.0f, 4.0f);
+            case OKAY:
+                return findByRating(4.0f, 6.0f);
+            case GOOD:
+                return findByRating(6.0f, 8.0f);
+            case BEST:
+                return findByRating(8.0f, 10.0f);
+        }
+
+        return null;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<Book> findByRating(float from, float to) {
+        if(from < 0 || to < 0 || from < to || from > 10 || to > 10) {
+            return null;
+        }
+
         return (List<Book>) sessionFactory.getCurrentSession()
-               .getNamedQuery(BookQueries.FIND_BY_RATING)
-               .setParameter("rating", rating)
-               .list();
+                .getNamedQuery(BookQueries.FIND_BY_RATING_SHORTCUT)
+                .setParameter("left", from).setParameter("right", to)
+                .list();
     }
 
     @Override
@@ -138,7 +163,20 @@ public class BookDaoImpl implements BookDao {
             return;
         sessionFactory.getCurrentSession().delete(book);
     }
+
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
+
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
+    }
+
+    public void setAuthorDao(AuthorDao authorDao) {
+        this.authorDao = authorDao;
+    }
+
+    public AuthorDao getAuthorDao() {
+        return authorDao;
     }
 }
