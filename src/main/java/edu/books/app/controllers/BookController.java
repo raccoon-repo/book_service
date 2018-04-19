@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -41,12 +40,6 @@ public class BookController implements ApplicationContextAware {
         List<Book> books = bookService.findAll();
         PagedListHolder<Book> booksHolder = new PagedListHolder<>(books);
         booksHolder.setPageSize(7);
-
-        if(page.isPresent()) {
-
-        } else {
-
-        }
 
         return modelAndView;
     }
