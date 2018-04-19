@@ -5,6 +5,8 @@ import edu.books.entities.Book;
 import edu.books.services.authors.AuthorDao;
 import edu.books.services.books.BookDao;
 import edu.books.services.books.BookService;
+import edu.books.utils.AuthorBuilder;
+import edu.books.utils.BookBuilder;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
@@ -34,283 +36,118 @@ public class BookServiceTest {
 
     @Test
     public void serviceTest() {
-        shouldSaveBook();
-        shouldFindBooks();
-        shouldUpdateAndDeleteBooks();
+
     }
 
-    private void shouldSaveBook() {
-        BookService bm = getBookService();
+    private void initData() {
+        BookService bookService = getBookService();
 
-        String tag_science = "Science";
-        String tag_detective = "detective";
-        String tag_detective_upper = "DETECTIVE";
+        Book b1 = new BookBuilder()
+                .title("Raccoon")
+                .genre("Fiction", "deTECtIve")
+                .rating(8.9f).build();
 
-        Book.Genre genre1 = new Book.Genre();
-        Book.Genre genre2 = new Book.Genre();
-        Book.Genre genre3 = new Book.Genre();
+        Book b2 = new BookBuilder()
+                .title("Bionic Beaver")
+                .genre("fiction", "fantasy")
+                .rating(7.7f).build();
 
-        genre1.setGenre("Detective");
-        genre1.setSubGenre("Historical Detective");
+        Book b3 = new BookBuilder()
+                .title("True Detective")
+                .genre("FICTION", "DETECTIVE")
+                .rating(10.0f).build();
 
-        genre2.setGenre("Science");
-        genre2.setSubGenre("Physics");
+        Book b4 = new BookBuilder()
+                .title("Not True Detective")
+                .genre("Fiction", null)
+                .rating(9.5f).build();
 
-        genre3.setGenre("Classical");
+        Book b5 = new BookBuilder()
+                .title("Why So Serious?")
+                .genre("FICTION", "Criminal")
+                .rating(9.0f).build();
 
-        Book book1 = new Book();
-        Book book2 = new Book();
-        Book book3 = new Book();
-        Book book4 = new Book();
-        Book book5 = new Book();
-        Book book6 = new Book();
-        Book book7 = new Book();
-        Book book8 = new Book();
-        Book book9 = new Book();
+        Book b6 = new BookBuilder()
+                .title("Why Do We Fall?")
+                .genre("FICTION", "crIminal")
+                .rating(8.7f).build();
 
-        Author author1 = new Author();
-        Author author2 = new Author();
-        Author author3 = new Author();
-        Author author4 = new Author();
-        Author author5 = new Author();
-        Author author6 = new Author();
+        Book b7 = new BookBuilder()
+                .title("The Adventures of Sherlock Holmes")
+                .genre("FICTION", "DetEctive")
+                .rating(7.8f).build();
 
-        author1.setFirstName("Oliver");
-        author1.setLastName("Sykes");
+        Book b8 = new BookBuilder()
+                .title("Java Programming Language")
+                .genre("NON-FICTION", "PROGRAMMING")
+                .rating(8.2f).build();
 
-        author2.setFirstName("Matthew");
-        author2.setLastName("McConaughey");
+        Book b9 = new BookBuilder()
+                .title("Romeo and Juliet")
+                .genre("Fiction", "TRagedy")
+                .rating(9.0f).build();
 
-        author3.setFirstName("Jon");
-        author3.setLastName("Snow");
+        Book b10 = new BookBuilder()
+                .title("Design Patterns: Elements of Reusable Object-Oriented Software")
+                .genre("NON-FICTION", "PROGRAMMING")
+                .rating(8.5f).build();
 
-        author4.setFirstName("Jaime");
-        author4.setLastName("Lannister");
 
-        author5.setFirstName("Stannis");
-        author5.setLastName("Baratheon");
+        Author a1 = new AuthorBuilder()
+                .name("Erich", "Gamma").build();
 
-        author6.setFirstName("James");
-        author6.setLastName("Hetfield");
+        Author a2 = new AuthorBuilder()
+                .name("Richard", "Helm").build();
 
-        book1.setTitle("First Book");
-        book1.setPublishDate(new Date());
-        book1.setRating(7.3f);
-        book1.setGenre(genre1);
-        book1.addAuthor(author1);
-        book1.addTag(tag_detective);
+        Author a3 = new AuthorBuilder()
+                .name("Ralph", "Johnson").build();
 
-        book2.setTitle("Second Book");
-        book2.setPublishDate(new Date());
-        book2.setRating(9.2f);
-        book2.setGenre(genre1);
-        book2.addAuthor(author2);
-        book2.addAuthor(author1);
-        book2.addAuthor(author3);
-        book2.addTag(tag_detective_upper);
+        Author a4 = new AuthorBuilder()
+                .name("John", "Vlissides").build();
 
-        book3.setTitle("Third Book");
-        book3.setPublishDate(new Date());
-        book3.setRating(7.7f);
-        book3.setGenre(genre2);
-        book3.addAuthor(author1);
-        book3.addAuthor(author5);
-        book3.addTag(tag_science);
+        Author a5 = new AuthorBuilder()
+                .name("Arthur", "Conan Doyle").build();
 
-        book4.setTitle("Fourth Book");
-        book4.setPublishDate(new Date());
-        book4.setRating(7.7f);
-        book4.setGenre(genre3);
-        book4.addAuthor(author1);
+        Author a6 = new AuthorBuilder()
+                .name("Herbert", "Schildt").build();
 
-        book5.setTitle("Fifth Book");
-        book5.setPublishDate(new Date());
-        book5.setRating(7.3f);
-        book5.setGenre(genre2);
-        book5.addAuthor(author2);
+        Author a7 = new AuthorBuilder()
+                .name("William", "Shakespeare").build();
 
-        book6.setTitle("Sixth Book");
-        book6.setPublishDate(new Date());
-        book6.setRating(7.2f);
-        book6.setGenre(genre1);
-        book6.addAuthor(author3);
+        Author a8 = new AuthorBuilder()
+                .name("Nikolay", "Kromov").build();
 
-        book7.setTitle("Seventh Book");
-        book7.setPublishDate(new Date());
-        book7.setRating(8.0f);
-        book7.setGenre(genre3);
-        book7.addAuthor(author4);
+        Author a9 = new AuthorBuilder()
+                .name("Juliet", "Ronald").build();
 
-        book8.setTitle("Eighth Book");
-        book8.setPublishDate(new Date());
-        book8.setRating(9.1f);
-        book8.setGenre(genre3);
-        book8.addAuthor(author3);
-        book8.addAuthor(author4);
+        b1.addAuthor(a8);
+        b2.addAuthor(a8);
+        b3.addAuthor(a9);
+        b4.addAuthor(a9);
 
-        book9.setTitle("Ninth Book");
-        book9.setPublishDate(new Date());
-        book9.setRating(3.2f);
-        book9.addAuthor(author5);
-        book9.setGenre(genre1);
+        b5.addAuthor(a8);
+        b5.addAuthor(a9);
 
-        bm.save(book1);
+        b6.addAuthor(a8);
+        b6.addAuthor(a9);
 
-        bm.save(book2);
-        bm.save(book3);
-        bm.save(book4);
-        bm.save(book5);
-        bm.save(book6);
-        bm.save(book7);
-        bm.save(book8);
-        bm.save(book9);
+        b7.addAuthor(a5);
+        b8.addAuthor(a6);
+        b9.addAuthor(a7);
+
+        b10.addAuthor(a1);
+        b10.addAuthor(a2);
+        b10.addAuthor(a3);
+        b10.addAuthor(a4);
     }
 
     private void shouldFindBooks() {
 
-        final String line = "*************************************************************************";
 
-
-        String tag_science = "Science";
-        String tag_detective = "detective";
-        String tag_detective_upper = "DETECTIVE";
-
-        Book.Genre genre1 = new Book.Genre();
-        Book.Genre genre2 = new Book.Genre();
-        Book.Genre genre3 = new Book.Genre();
-
-        genre1.setGenre("Detective");
-        genre1.setSubGenre("Historical Detective");
-
-        genre2.setGenre("Science");
-        genre2.setSubGenre("Physic");
-
-        genre3.setGenre("Classical");
-
-        BookService bookService = getBookService();
-        List<Book> books = bookService.findAll();
-
-        assertNotNull(books);
-        assertEquals(9, books.size());
-
-        AuthorDao authorDao = getAuthorDao();
-
-        Author author = authorDao.findByName("Oliver", "Sykes").get(0);
-
-        assertNotNull(authorDao);
-        assertEquals("Oliver", author.getFirstName());
-
-        books = bookService.findByAuthor(author);
-        assertNotNull(books);
-        assertEquals(4, books.size());
-
-        books = bookService.findByTitle("First Book");
-
-        assertNotNull(books);
-        assertEquals(1, books.size());
-
-        Book book = books.get(0);
-
-        assertNotNull(book.getAuthors());
-
-        List<Author> authors = book.getAuthors();
-
-        assertEquals(1, authors.size());
-
-        Author bookAuthor = book.getAuthors().get(0);
-
-        assertEquals(author.getFirstName(), bookAuthor.getFirstName());
-        assertEquals(author.getLastName(), bookAuthor.getLastName());
-
-        List<Book> authorsBooks = bookAuthor.getBooks();
-
-        //Throws org.hibernate.LazyInitializationException
-        //when FetchType.LAZY used
-        //but when FetchType.EAGER used
-        //it doesn't
-        /*
-        for(Book b: authorsBooks) {
-            System.out.println(b);
-        }
-
-        assertEquals(4, authorsBooks.size());
-
-        System.out.println(line);
-        book = authorsBooks.stream().filter(n -> n.getTitle().equals("First Book"))
-                .findFirst().get();
-
-        assertNotNull(book);
-
-        */
-
-        books = bookService.findByPublishDate(new Date());
-        assertNotNull(books);
-
-        System.out.println("\n" + line);
-        System.out.println("Found by publish date" );
-        books.forEach(System.out::println);
-        System.out.println();
-
-        books = bookService.findByRating(Book.RatingShortcut.OKAY);
-
-        assertNotNull(books);
-        System.out.println("\n" + line);
-        System.out.println("Found by rating ");
-        books.forEach(System.out::println);
-        System.out.println(line);
-
-        books = bookService.findByGenre(genre1);
-        assertNotNull(books);
-        System.out.println("\n" + line);
-        System.out.println("Found by genre ");
-        books.forEach(System.out::println);
-        System.out.println(line);
-
-        List<Book> tag_books = bookService.findByTags(
-            Stream.of(tag_detective).collect(Collectors.toSet())
-        );
-
-        assertEquals(2, tag_books.size());
     }
 
     private void shouldUpdateAndDeleteBooks() {
-        BookService bs = getBookService();
-        List<Book> books;
-        Book book;
-        Book book1;
 
-        Book.Genre detective = new Book.Genre();
-        detective.setGenre("Detective");
-
-        books = bs.findByTitle("First Book");
-
-        assertNotNull(books);
-        assertEquals(1, books.size());
-
-        book = books.get(0);
-
-        assertNotNull(book);
-        assertEquals("First Book", book.getTitle());
-
-        book.setGenre(detective);
-        //bs.update(book);
-
-        books = bs.findByTitle("First Book");
-
-        assertNotNull(books);
-        assertEquals(1, books.size());
-
-        book = books.get(0);
-
-        assertNotNull(book);
-        assertEquals("First Book", book.getTitle());
-        assertEquals("Detective", book.getGenre().getGenre());
-        bs.delete(book);
-
-        books = bs.findByTitle("First Book");
-
-        assertNotNull(books);
-        assertEquals(0, books.size());
     }
 
     private BookDao getBookDao() {

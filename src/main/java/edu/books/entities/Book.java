@@ -1,6 +1,5 @@
 package edu.books.entities;
 
-
 import edu.books.utils.BookQueries;
 import org.hibernate.annotations.Cascade;
 import static edu.books.utils.OrderedBookQueries.*;
@@ -223,7 +222,10 @@ public class Book implements Serializable {
         }
 
         public void setGenre(String genre) {
-            this.genre = genre;
+            if(genre != null)
+                this.genre = genre.toUpperCase();
+            else
+                this.genre = null;
         }
 
         @Column(name = "sub_genre")
@@ -232,7 +234,10 @@ public class Book implements Serializable {
         }
 
         public void setSubGenre(String subGenre) {
-            this.subGenre = subGenre;
+            if(genre != null)
+                this.genre = genre.toUpperCase();
+            else
+                this.genre = null;
         }
 
         @Override

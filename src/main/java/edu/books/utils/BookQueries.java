@@ -30,7 +30,7 @@ public final class BookQueries {
 
     public static final String FIND_BY_RATING_SHORTCUT = "Book.findByRatingShortcut";
     public static final String FIND_BY_RATING_SHORTCUT_QUERY =
-            "SELECT DISTINCT b FROM Book b LEFT JOIN FETCH b.authors a WHERE b.rating >= :left AND b.rating =< :right";
+            "SELECT DISTINCT b FROM Book b LEFT JOIN FETCH b.authors a WHERE b.rating >= :left AND b.rating <= :right";
 
     public static final String FIND_BY_DATE = "Book.findByDate";
     public static final String FIND_BY_DATE_QUERY =

@@ -1,10 +1,15 @@
+DROP TABLE IF EXISTS author;
+DROP TABLE IF EXISTS book_author;
+DROP TABLE IF EXISTS tag;
+DROP TABLE IF EXISTS book;
+
 CREATE TABLE book (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
   title VARCHAR(112) NOT NULL,
   genre VARCHAR(32),
   sub_genre VARCHAR(32),
   publish_date DATE,
-  ratingShortcut VARCHAR(16),
+  rating FLOAT(16),
   version INTEGER NOT NULL DEFAULT 0,
   description VARCHAR(1536),
   cover BLOB
