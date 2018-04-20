@@ -9,6 +9,7 @@ public class BookPage implements Page<Book> {
     private List<Book> books;
     private Book firstElement;
     private Book lastElement;
+    private int pageNumber;
 
     @Override
     public Book firstElement() {
@@ -32,8 +33,19 @@ public class BookPage implements Page<Book> {
         lastElement = data.get(data.size() - 1);
     }
 
+    @Override
+    public int getPageNumber() {
+        return pageNumber;
+    }
+
+    @Override
+    public void setPageNumber(int pageNumber) {
+        this.pageNumber = pageNumber;
+    }
+
     public static class Builder {
         private List<Book> data;
+        private int pageNumber;
 
         public Builder() {
         }
@@ -43,9 +55,15 @@ public class BookPage implements Page<Book> {
             return this;
         }
 
+        public Builder setPageNumber(int pageNumber) {
+            this.pageNumber = pageNumber;
+            return this;
+        }
+
         public BookPage build() {
             BookPage page = new BookPage();
             page.setData(data);
+            page.setPageNumber(pageNumber);
             return page;
         }
     }

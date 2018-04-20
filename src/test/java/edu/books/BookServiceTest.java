@@ -36,7 +36,9 @@ public class BookServiceTest {
 
     @Test
     public void serviceTest() {
-
+        initData();
+        shouldFindBooks();
+        shouldUpdateAndDeleteBooks();
     }
 
     private void initData() {
@@ -139,10 +141,40 @@ public class BookServiceTest {
         b10.addAuthor(a2);
         b10.addAuthor(a3);
         b10.addAuthor(a4);
+
+        bookService.save(b1);
+        bookService.save(b2);
+        bookService.save(b3);
+        bookService.save(b4);
+        bookService.save(b5);
+        bookService.save(b6);
+        bookService.save(b7);
+        bookService.save(b8);
+        bookService.save(b9);
+        bookService.save(b10);
     }
 
     private void shouldFindBooks() {
+        BookService bookService = getBookService();
 
+        Book b1 = bookService.findById(1);
+
+        assertNotNull(b1);
+        assertEquals("Raccoon", b1.getTitle());
+
+        List<Book> books = bookService.findByTitle("Detective");
+
+        assertNotNull(books);
+        assertEquals(2, books.size());
+
+        Book.Genre genre = new Book.Genre();
+        genre.setGenre("fiction");
+        genre.setSubGenre("criminal");
+
+        books = bookService.findByGenre(genre);
+
+        assertNotNull(books);
+        assertEquals(2, books.size());
 
     }
 

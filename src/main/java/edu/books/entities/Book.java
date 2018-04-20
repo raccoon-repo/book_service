@@ -2,11 +2,8 @@ package edu.books.entities;
 
 import edu.books.utils.BookQueries;
 import org.hibernate.annotations.Cascade;
-import static edu.books.utils.OrderedBookQueries.*;
 
 import static org.hibernate.annotations.CascadeType.*;
-
-import javax.inject.Named;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
@@ -25,15 +22,6 @@ import java.util.*;
         name = BookQueries.FIND_BY_RATING_SHORTCUT,
         query = BookQueries.FIND_BY_RATING_SHORTCUT_QUERY
     ),
-
-    /* ******** ordered queries ******** */
-
-    @NamedQuery(name = FIND_ALL, query = FIND_ALL_QUERY),
-    @NamedQuery(name = FIND_BY_AUTHOR, query = FIND_BY_AUTHOR_QUERY),
-    @NamedQuery(name = FIND_BY_TITLE, query = FIND_BY_TITLE_QUERY),
-    @NamedQuery(name = FIND_BY_GENRE, query = FIND_BY_GENRE_QUERY),
-    @NamedQuery(name = FIND_BY_RATING, query = FIND_BY_RATING_QUERY),
-    @NamedQuery(name = FIND_BY_DATE, query = FIND_BY_DATE_QUERY),
 })
 public class Book implements Serializable {
 
@@ -225,7 +213,7 @@ public class Book implements Serializable {
             if(genre != null)
                 this.genre = genre.toUpperCase();
             else
-                this.genre = null;
+                this.genre = "";
         }
 
         @Column(name = "sub_genre")
@@ -234,10 +222,10 @@ public class Book implements Serializable {
         }
 
         public void setSubGenre(String subGenre) {
-            if(genre != null)
-                this.genre = genre.toUpperCase();
+            if(subGenre != null)
+                this.subGenre = subGenre.toUpperCase();
             else
-                this.genre = null;
+                this.subGenre = null;
         }
 
         @Override
@@ -246,7 +234,13 @@ public class Book implements Serializable {
                 return false;
             else {
                 Genre g = (Genre) o;
-                return genre.equals(g.genre);
+
+                // use subGenre as an optional parameter
+                if(subGenre == null || g.subGenre == null) {
+                    return genre.equals(g.genre);
+                } else {
+                    return genre.equals(g.genre) && subGenre.equals(g.subGenre);
+                }
             }
         }
     }

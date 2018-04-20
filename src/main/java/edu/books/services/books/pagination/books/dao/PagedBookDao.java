@@ -62,14 +62,28 @@ public class PagedBookDao implements PagedDao<Book> {
     @Override
     public List<Book> get(int page, int pageSize) {
         Page<Book> bookPage;
+
+        // Load first page
         if(!firstPageLoaded) {
-            bookPage = fetchFirstPage(pageSize);
-        } else {
-            bookPage = cache.get(1);
+            fetchFirstPage(pageSize);
         }
 
         if(cache.containsKey(page)) {
             return cache.get(page).getData();
+        }
+
+
+        // if cache already contains page
+        // previous to the page we are looking for
+        // get this previous page and retrieve next page
+        // just in one step
+        if(cache.containsKey(page - 1)) {
+            bookPage = cache.get(page - 1);
+
+        // else start iterate from first page
+        // until we reach to the wanted page
+        } else {
+            bookPage = cache.get(1);
         }
 
         long lastId = bookPage.lastElement().getId();
@@ -78,15 +92,15 @@ public class PagedBookDao implements PagedDao<Book> {
         IdAndRatingMutableTuple tuple = new IdAndRatingMutableTuple(lastId, lastRating);
 
         int i;
-        for (i = 1; i < page; i++) {
+        for (i = bookPage.getPageNumber(); i < page; i++) {
             getNextLastIdAndRating(tuple, pageSize);
         }
 
         List<Long> identities = getIdentitiesByPage(tuple.id, tuple.rating, pageSize);
         List<Book> books = getBooksById(identities);
 
-        bookPage = new BookPage();
-        bookPage.setData(books);
+        bookPage = new BookPage.Builder()
+                .setData(books).build();
         cache.putIfAbsent(i, bookPage);
 
         return books;
