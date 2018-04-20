@@ -11,7 +11,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedList;
@@ -26,7 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 
 @Transactional
-@Service("pagedBookDao")
+@Repository("pagedBookDao")
 @Scope("session")
 public class PagedBookDao implements PagedDao<Book> {
 
@@ -43,6 +43,9 @@ public class PagedBookDao implements PagedDao<Book> {
      *  I use seek method for pagination instead of
      *  simply setting OFFSET for reasons of performance
      *  So the code looks little bit tricky and complicated
+     *
+     *  Pages are sorted by rating, so first of all one needs
+     *  to index this column
      */
 
     private static final String FETCH_PAGE =
@@ -72,11 +75,21 @@ public class PagedBookDao implements PagedDao<Book> {
         long lastId = bookPage.lastElement().getId();
         float lastRating = bookPage.lastElement().getRating();
 
-        for (int i = 1; i <= page; i++) {
+        IdAndRatingMutableTuple tuple = new IdAndRatingMutableTuple(lastId, lastRating);
+
+        int i;
+        for (i = 1; i < page; i++) {
+            getNextLastIdAndRating(tuple, pageSize);
         }
 
-        return null;
+        List<Long> identities = getIdentitiesByPage(tuple.id, tuple.rating, pageSize);
+        List<Book> books = getBooksById(identities);
 
+        bookPage = new BookPage();
+        bookPage.setData(books);
+        cache.putIfAbsent(i, bookPage);
+
+        return books;
     }
 
     @Autowired
@@ -112,16 +125,20 @@ public class PagedBookDao implements PagedDao<Book> {
     }
 
     /**
+     * Method that is used for iterating over pages
+     * To use it, pass a tuple into the method.
+     * Then, the method will get id and rating of the last
+     * element on the next page and change tuple' values
+     * to reuse this tuple object later
      *
+     * @param tuple A mutable tuple that contains
+     *              id and rating of the last element
+     *              on the current page
      *
-     * @variable lastId id of the last element on the previous page
-     * @variable  lastRating rating of the last element on the previous page
-     * @variable  pageSize size of the page
-     * @return new tuple that consists of retrieved id and rating values
      */
 
     @SuppressWarnings("unchecked")
-    private IdAndRatingMutableTuple getNextLastIdAndRating(IdAndRatingMutableTuple tuple, int pageSize) {
+    private void getNextLastIdAndRating(IdAndRatingMutableTuple tuple, int pageSize) {
 
         long lastId = tuple.getId();
         float lastRating = tuple.getRating();
@@ -147,7 +164,6 @@ public class PagedBookDao implements PagedDao<Book> {
         tuple.setId(lastId);
         tuple.setRating(lastRating);
 
-        return tuple;
     }
 
     @SuppressWarnings("unchecked")
@@ -156,11 +172,13 @@ public class PagedBookDao implements PagedDao<Book> {
             firstPageLoaded = true;
             Session session = sessionFactory.getCurrentSession();
 
+            // Fetch identities on the first page
             List<Long> identities = (List<Long>)
                     session.createNativeQuery(FETCH_FIRST_PAGE)
                     .setParameter("page_size", pageSize)
                     .list();
 
+            // Fetch books by identities using Hibernate
             List<Book> books = getBooksById(identities);
 
             Page<Book> bookPage = new BookPage.Builder()
@@ -182,8 +200,8 @@ public class PagedBookDao implements PagedDao<Book> {
                         .setData(books).build();
                 cache.putIfAbsent(i, temp);
 
-                return bookPage;
             }
+            return bookPage;
         }
 
         return cache.get(1);
@@ -203,7 +221,7 @@ public class PagedBookDao implements PagedDao<Book> {
         private long id;
         private float rating;
 
-        public IdAndRatingMutableTuple(long id, long rating) {
+        public IdAndRatingMutableTuple(long id, float rating) {
             this.id = id;
             this.rating = rating;
         }

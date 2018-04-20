@@ -35,3 +35,5 @@ CREATE TABLE tag (
 
 ALTER TABLE tag
     ADD FOREIGN KEY (book_id) REFERENCES book(id);
+
+CREATE INDEX rating_idx ON book(rating);
