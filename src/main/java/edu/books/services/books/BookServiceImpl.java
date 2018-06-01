@@ -17,6 +17,7 @@ public class BookServiceImpl implements BookService {
     private BookDao bookDao;
 
     @Override
+    @Transactional(readOnly = true)
     public Book findById(long id) {
         return bookDao.findById(id);
     }
@@ -49,6 +50,12 @@ public class BookServiceImpl implements BookService {
     @Transactional(readOnly = true)
     public List<Book> findByRating(Book.RatingShortcut ratingShortcut) {
         return bookDao.findByRating(ratingShortcut);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Book> findByRating(float rating) {
+        return bookDao.findByRating(rating);
     }
 
     @Override

@@ -1,7 +1,6 @@
-package edu.books.services.books.pagination.books;
+package edu.books.services.books.pagination;
 
 import edu.books.entities.Book;
-import edu.books.services.books.pagination.Page;
 
 import java.util.List;
 
@@ -29,6 +28,10 @@ public class BookPage implements Page<Book> {
     @Override
     public void setData(List<Book> data) {
         this.books = data;
+
+        if (data.size() == 0)
+            return;
+
         firstElement = data.get(0);
         lastElement = data.get(data.size() - 1);
     }

@@ -99,7 +99,6 @@ public class Book implements Serializable {
         this.authors = authors;
     }
 
-
     @Version
     public long getVersion() {
         return version;
@@ -236,7 +235,7 @@ public class Book implements Serializable {
                 Genre g = (Genre) o;
 
                 // use subGenre as an optional parameter
-                if(subGenre == null || g.subGenre == null) {
+                if(g.subGenre == null) {
                     return genre.equals(g.genre);
                 } else {
                     return genre.equals(g.genre) && subGenre.equals(g.subGenre);

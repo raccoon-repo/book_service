@@ -97,10 +97,7 @@ a.toggle-bar {
     background-color: #7cc4ff;
     color: white;
     font-size: 16px;
-    padding-right: 3px;
-    padding-left: 3px;
-    padding-top: 3px;
-    padding-bottom: 5px;
+    padding: 3px 3px 5px;
     border-radius: 2px;
     border-color: #7cc1fa;
     margin-left: 5px;

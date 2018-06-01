@@ -37,6 +37,7 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Book findById(long id) {
 
         return sessionFactory.getCurrentSession()
@@ -136,6 +137,15 @@ public class BookDaoImpl implements BookDao {
         }
 
         return null;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<Book> findByRating(float rating) {
+        return (List<Book>) sessionFactory.getCurrentSession()
+                .getNamedQuery(BookQueries.FIND_BY_RATING)
+                .setParameter("rating", rating)
+                .list();
     }
 
     @Override

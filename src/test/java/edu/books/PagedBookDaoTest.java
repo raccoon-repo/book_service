@@ -168,8 +168,8 @@ public class PagedBookDaoTest {
     @Test
     public void shouldReturnSecondPageOfBooksOrderedByRating() {
 
-
     }
+
     private static BookService getBookService() {
         return ctx.getBean("bookService", BookService.class);
     }

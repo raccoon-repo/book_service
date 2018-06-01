@@ -1,0 +1,31 @@
+welcome   - 	welcome page
+
+<-------------------------------------------------------------------------------------------------->
+
+books				- GET  - list all books
+books/{id}			- GET  - show book with id = ${id}
+
+books/{id}?form	- GET  - get the form for edditing book with id = ${id}
+books/{id}?form	- POST - update book with id = ${id}
+
+books?form			- GET  - get the form for creating new book
+books?form			- POST - create book
+
+books?find			- GET  - get the form for finding books
+books?find			- POST - get found books	
+
+<-------------------------------------------------------------------------------------------------->
+
+authors			- GET  - show all authors with
+authors/{id}  		- GET  - show author with id = ${id}
+  
+authors/{id}?form  - GET  - get form for edditing author with id = ${id}
+authors/{id}?form  - POST - update author with id = ${id}
+
+authors?form		- GET  - get the form for creating author 
+authors?form		- POST - create author
+
+authos?find		- GET  - get the form form finding authors
+authors?find		- POST - get found authors
+
+<-------------------------------------------------------------------------------------------------->

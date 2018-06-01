@@ -15,6 +15,7 @@ public interface BookDao {
     List<Book> findByAuthor(Author author);
     List<Book> findByGenre(Book.Genre genre);
     List<Book> findByRating(Book.RatingShortcut ratingShortcut);
+    List<Book> findByRating(float rating);
     List<Book> findByRating(float from, float to);
     List<Book> findByPublishDate(Date publishDate);
     List<Book> findByTags(Set<String> tags);

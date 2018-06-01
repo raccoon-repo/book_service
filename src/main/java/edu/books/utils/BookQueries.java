@@ -26,7 +26,7 @@ public final class BookQueries {
 
     public static final String FIND_BY_RATING = "Book.findByRating";
     public static final String FIND_BY_RATING_QUERY =
-            "SELECT DISTINCT b FROM Book b LEFT JOIN FETCH b.authors a WHERE b.rating=:rating";
+            "SELECT DISTINCT b FROM Book b LEFT JOIN FETCH b.authors a WHERE b.rating = :rating";
 
     public static final String FIND_BY_RATING_SHORTCUT = "Book.findByRatingShortcut";
     public static final String FIND_BY_RATING_SHORTCUT_QUERY =

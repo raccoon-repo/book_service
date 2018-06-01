@@ -28,7 +28,6 @@ public class BookServiceTest {
         GenericXmlApplicationContext xmlContext =
                 new GenericXmlApplicationContext();
         xmlContext.load("classpath:META-INF/context/test-ctx.xml");
-        xmlContext.getEnvironment().setActiveProfiles("test");
         xmlContext.refresh();
 
         ctx = xmlContext;
@@ -38,7 +37,6 @@ public class BookServiceTest {
     public void serviceTest() {
         initData();
         shouldFindBooks();
-        shouldUpdateAndDeleteBooks();
     }
 
     private void initData() {
@@ -92,7 +90,7 @@ public class BookServiceTest {
         Book b10 = new BookBuilder()
                 .title("Design Patterns: Elements of Reusable Object-Oriented Software")
                 .genre("NON-FICTION", "PROGRAMMING")
-                .rating(8.5f).build();
+                .rating(8.7f).build();
 
 
         Author a1 = new AuthorBuilder()
@@ -156,6 +154,7 @@ public class BookServiceTest {
 
     private void shouldFindBooks() {
         BookService bookService = getBookService();
+        AuthorDao authorDao = getAuthorDao();
 
         Book b1 = bookService.findById(1);
 
@@ -176,10 +175,25 @@ public class BookServiceTest {
         assertNotNull(books);
         assertEquals(2, books.size());
 
-    }
+        books = bookService.findByRating(10.0f);
+        assertNotNull(books);
+        assertEquals(1, books.size());
 
-    private void shouldUpdateAndDeleteBooks() {
+        books = bookService.findByRating(9.0f);
+        assertNotNull(books);
+        assertEquals(2, books.size());
 
+        books = bookService.findByRating(8.7f);
+        assertNotNull(books);
+        assertEquals(2, books.size());
+
+        List<Author> author = authorDao.findByName("Herbert", "Schildt");
+        assertNotNull(author);
+
+
+        books = bookService.findByAuthor(author.get(0));
+        assertNotNull(books);
+        assertEquals(1, books.size());
     }
 
     private BookDao getBookDao() {

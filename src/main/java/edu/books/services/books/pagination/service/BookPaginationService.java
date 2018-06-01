@@ -1,4 +1,4 @@
-package edu.books.services.books.pagination.books.service;
+package edu.books.services.books.pagination.service;
 
 import edu.books.entities.Book;
 import edu.books.services.books.pagination.PagedDao;
@@ -18,6 +18,7 @@ implements PaginationService<Book> {
     private PagedDao pagedDao;
 
     @Override
+    @Transactional
     @SuppressWarnings("unchecked")
     public List<Book> get(int page, int pageSize) {
         return (List<Book>) pagedDao.get(page, pageSize);

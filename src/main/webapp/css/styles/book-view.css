@@ -1,4 +1,4 @@
-#cover-wrapper {
+.cover-wrapper {
     padding: 10px;
     max-width: 266px;
     max-height: 394px;
@@ -7,14 +7,14 @@
     border-radius: 5px;
 }
 
-#view-book-container {
+.view-book-container {
     border-right: 1px solid rgb(226, 226, 226);
     border-left: 1px solid rgb(226, 226, 226);
 }
 
-#rating {
+.rating {
     text-align: center;
-    font-size: 25px;
+    font-size: 18px;
 }
 
 .row {
