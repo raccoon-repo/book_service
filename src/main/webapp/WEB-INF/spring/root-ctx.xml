@@ -16,5 +16,5 @@
     <tx:annotation-driven/>
 
     <import resource="classpath:META-INF/context/app-ctx.xml"/>
-    <context:component-scan base-package="edu.books"/>
+    <context:component-scan base-package="edu.library"/>
 </beans>

@@ -34,6 +34,6 @@
         </beans:property>
     </beans:bean>
 
-    <context:component-scan base-package="edu.books"/>
+    <context:component-scan base-package="edu.library"/>
 
 </beans:beans>

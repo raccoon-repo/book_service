@@ -29,7 +29,7 @@
     <bean id="hibernateSessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"
           p:hibernateProperties-ref="hibernateProperties"
           p:dataSource-ref="embeddedDataSource"
-          p:packagesToScan="edu.books"
+          p:packagesToScan="edu.library"
     />
 
     <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager"
@@ -44,5 +44,5 @@
         <prop key="hibernate.show_sql">true</prop>
     </util:properties>
 
-    <context:component-scan base-package="edu.books"/>
+    <context:component-scan base-package="edu.library"/>
 </beans>
